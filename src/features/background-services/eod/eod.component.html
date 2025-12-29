@@ -20,7 +20,7 @@
 </div>
 
 <!-- Create Interest -->
-<form>
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row">
         <div class="col-xxl-12 col-xxxl-12">
             <mat-card class="daxa-card create-course-card mb-25 border-radius bg-white border-none d-block">
@@ -33,6 +33,7 @@
                 </mat-card-header>
 
                 <mat-card-content>
+                    @if (!this.eodService.isLoading()) {
                     <div class="row">
                         <div class="col-sm-6">
                             <div class="mb-25">
@@ -41,18 +42,28 @@
                                 </label>
                                 <mat-form-field appearance="fill">
                                     <mat-label>MM/DD/YYYY</mat-label>
-                                    <input matInput [matDatepicker]="picker2">
-                                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
-                                    <mat-datepicker #picker2></mat-datepicker>
+                                    <input formControlName="eodDate" matInput [matDatepicker]="picker">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
                                 </mat-form-field>
+                                @if (eodDateIsRequired) {
+                                <div class="error text-danger">
+                                    EOD Date is required.
+                                </div>
+                                }
                             </div>
                         </div>
                    </div>
-                    <div class="btn-box d-md-flex align-items-center justify-content-start">
-                        <button mat-button>
-                            Process
-                        </button>
-                    </div>
+                        @if (form.valid) {
+                        <div class="btn-box d-md-flex align-items-center justify-content-start">
+                            <button mat-button>
+                                Process
+                            </button>
+                        </div>
+                        }
+                    } @else {
+                    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+                    }
                 </mat-card-content>
             </mat-card>
         </div>
