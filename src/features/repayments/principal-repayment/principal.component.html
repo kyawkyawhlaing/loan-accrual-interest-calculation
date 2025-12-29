@@ -1,0 +1,146 @@
+<!-- Breadcrumb -->
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-between">
+    <h5 class="mb-0">
+        Create Repayment
+    </h5>
+    <ol class="breadcrumb list-unstyled mt-0 mb-0 pl-0">
+        <li class="breadcrumb-item position-relative">
+            <a routerLink="/" class="d-inline-block position-relative">
+                <i class="ri-bank-line"></i>
+                Repayments
+            </a>
+        </li>
+        <li class="breadcrumb-item position-relative">
+            Principal
+        </li>
+        <li class="breadcrumb-item position-relative">
+            Create Principal
+        </li>
+    </ol>
+</div>
+
+<!-- Create Principal -->
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
+        <div class="col-xxl-12 col-xxxl-12">
+            <mat-card class="daxa-card create-course-card mb-25 border-radius bg-white border-none d-block">
+                <mat-card-header>
+                    <mat-card-title>
+                        <h5 class="mt-0 mb-0">
+                            Add a Principal
+                        </h5>
+                    </mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="mb-25">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Loan Account Number
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Account Number
+                                    </mat-label>
+                                    <input formControlName="loanAcctNum" matInput placeholder="E.g. DCF-001">
+                                </mat-form-field>
+                                @if (loanAccountNumberIsRequired) {
+                                <div class="error text-danger">
+                                    Loan Account Number is required.
+                                </div>
+                                }
+                                @if (loanAccountNumberIsInvalid) {
+                                <div class="error text-danger">
+                                    Loan account number must be at least 6 characters long and not exceed 20 characters.
+                                </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="mb-25">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Product Code
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Select
+                                    </mat-label>
+                                    <mat-select formControlName="productCode" >
+                                        @for (product of productList; track product) {
+                                            <mat-option [value]="product">{{product}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                                @if (productCodeIsRequired) {
+                                <div class="error text-danger">
+                                    Product Code is required.
+                                </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="mb-25">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Payment Amount
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Enter Amount
+                                    </mat-label>
+                                    <input formControlName="paymentAmt" matInput thousandSeparator placeholder="E.g. 100,000">
+                                </mat-form-field>
+                                @if (paymentAmtIsRequired) {
+                                <div class="error text-danger">
+                                    Payment amount is required.
+                                </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="mb-25">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Currency Code
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Currency
+                                    </mat-label>
+                                    <input formControlName="ccy" matInput placeholder="E.g. MMK">
+                                </mat-form-field>
+                                @if (currencyCodeIsRequired) {
+                                <div class="error text-danger">
+                                    Currency Code is required.
+                                </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-sm-12">
+                            <div class="mb-25">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Narration Details
+                                </label>
+                                <div class="NgxEditor__Wrapper">
+                                    <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"></ngx-editor-menu>
+                                    <ngx-editor [editor]="editor" [placeholder]="'Type here...'" formControlName="narrationDetails"></ngx-editor>
+                                </div>
+                            </div>
+                        </div>
+                   </div>
+
+                   @if (form.valid) {
+                        <div class="btn-box d-md-flex align-items-center justify-content-end">
+                            <button mat-button>
+                                Process
+                            </button>
+                        </div>
+                    }
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</form>

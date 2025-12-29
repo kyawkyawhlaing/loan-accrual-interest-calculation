@@ -1,0 +1,60 @@
+<!-- Breadcrumb -->
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-between">
+    <h5 class="mb-0">
+        Background Services
+    </h5>
+    <ol class="breadcrumb list-unstyled mt-0 mb-0 pl-0">
+        <li class="breadcrumb-item position-relative">
+            <a routerLink="/" class="d-inline-block position-relative">
+                <i class="ri-time-line"></i>
+                Background Services
+            </a>
+        </li>
+        <li class="breadcrumb-item position-relative">
+            EOD
+        </li>
+        <li class="breadcrumb-item position-relative">
+            Process EOD
+        </li>
+    </ol>
+</div>
+
+<!-- Create Interest -->
+<form>
+    <div class="row">
+        <div class="col-xxl-12 col-xxxl-12">
+            <mat-card class="daxa-card create-course-card mb-25 border-radius bg-white border-none d-block">
+                <mat-card-header>
+                    <mat-card-title>
+                        <h5 class="mt-0 mb-0">
+                            Process EOD
+                        </h5>
+                    </mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="mb-25">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Date
+                                </label>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>MM/DD/YYYY</mat-label>
+                                    <input matInput [matDatepicker]="picker2">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                   </div>
+                    <div class="btn-box d-md-flex align-items-center justify-content-start">
+                        <button mat-button>
+                            Process
+                        </button>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</form>
