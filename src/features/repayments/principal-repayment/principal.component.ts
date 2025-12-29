@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, DestroyRef, inject } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { MatButtonModule } from "@angular/material/button";
 import { MatCardModule } from "@angular/material/card";
@@ -16,6 +16,8 @@ import { CustomizerSettingsService } from "../../../core/customizer-settings/cus
 import { CustomSnackbarComponent } from "../../../shared/alert/custom-snackbar.component";
 import { ThousandSeparatorDirective } from "../../../shared/directives/thousand-separator.directive";
 import { PrincipalService } from "./principal.service";
+import { UtilsService } from "../../../core/services/utils.service";
+import { UppercaseDirective } from "../../../shared/directives/uppercase.directive";
 
 
 @Component({
@@ -35,6 +37,7 @@ import { PrincipalService } from "./principal.service";
         FileUploadModule,
         NgxEditorModule,
         ThousandSeparatorDirective,
+        UppercaseDirective
     ],
     templateUrl: 'principal.component.html',
     styleUrl: 'principal.component.scss',
@@ -43,6 +46,7 @@ export class PrincipalComponent {
     private fb = inject(FormBuilder);
     private snackBar = inject(MatSnackBar);
     private voucherService = inject(PrincipalService);
+    private utilsService = inject(UtilsService);
 
     protected form: FormGroup = new FormGroup({});
 
@@ -94,28 +98,35 @@ export class PrincipalComponent {
         this.themeService.isToggled$.subscribe((isToggled) => {
             this.isToggled = isToggled;
         });
+
     }
 
     onSubmit() {
-        this.voucherService.createRepaymentVoucher({ ...this.form.value }).subscribe({
+        this.voucherService.createRepaymentVoucher({
+            ...this.form.value,
+            paymentAmt: this.utilsService.parseAmount(this.form.value.paymentAmt)
+        })
+        .subscribe({
             next: (response) => {
+                this.form.reset();
+                this.form.markAsPristine();
+                this.form.markAsUntouched();
                 this.snackBar.openFromComponent(CustomSnackbarComponent, {
-                    data: { message: 'Principal voucher is saved successfully!' },
+                    data: { message: 'Principal voucher is saved successfully!', type: 'success' },
                     verticalPosition: 'top',
                     horizontalPosition: 'center',
-                    panelClass: ['text-success']
+                    panelClass: [`snackbar-success`]
                 });
             },
             error: (error) => {
                 this.snackBar.openFromComponent(CustomSnackbarComponent, {
-                    data: { message: error.error.message },
+                    data: { message: error.error.message, type: 'error' },
                     verticalPosition: 'top',
                     horizontalPosition: 'center',
-                    panelClass: ['text-danger']
+                    panelClass: [`snackbar-error`]
                 });
             }
         })
-
     }
 
     // Dark Mode
@@ -126,7 +137,7 @@ export class PrincipalComponent {
     get loanAccountNumberIsRequired() {
         return (
             this.form.get('loanAcctNum')!.hasError('required') &&
-            this.form.get('loanAcctNum')!.touched
+            (this.form.get('loanAcctNum')!.touched || this.form.get('loanAcctNum')!.dirty)
         );
     }
 

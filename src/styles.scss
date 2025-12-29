@@ -118,6 +118,31 @@ button {
     margin-bottom: 25px !important;
 }
 
+.mat-mdc-snackbar-surface {
+  background-color: inherit !important;  /* let Tailwind bg-* apply */
+  color: inherit !important;
+}
+
+.snackbar-success {
+  background-color: #4caf50 !important;
+  color: white !important;
+}
+
+.snackbar-error {
+  background-color: #f44336 !important;
+  color: white !important;
+}
+
+.snackbar-warn {
+  background-color: #ff9800 !important;
+  color: white !important;
+}
+
+.snackbar-info {
+  background-color: #2196f3 !important;
+  color: white !important;
+}
+
 /* Max width 767px */
 @media only screen and (max-width : 767px) {
 
