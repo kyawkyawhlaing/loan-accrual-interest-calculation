@@ -11,4 +11,8 @@ export class InterestService {
     createRepaymentVoucher(voucher: Repayment) {
         return this.http.post<string>(this.baseUrl + 'interestRepayment/create', voucher);
     }
+
+    getLoanByAccountNumber(loanAcctNumber: string) {
+        return this.http.get<any>(this.baseUrl + 'principalRepayment/' + loanAcctNumber);
+    }
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { Component, DestroyRef, inject } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { Editor, NgxEditorModule, Toolbar } from "ngx-editor";
 import { MatButtonModule } from "@angular/material/button";
@@ -47,9 +47,12 @@ export class InterestComponent {
     private snackBar = inject(MatSnackBar);
     private voucherService = inject(InterestService);
     private utilsService = inject(UtilsService);
+    private destroyRef = inject(DestroyRef);
 
     protected form: FormGroup = new FormGroup({});
 
+    isReadonly = false;
+    
     // Text Editor
     editor: Editor;
     toolbar: Toolbar = [
@@ -131,6 +134,36 @@ export class InterestComponent {
                     });
                 },
             });
+    }
+
+    onLoanAccountEnter() {
+        const loanAcctNum = this.form.value?.loanAcctNum;
+
+        if (!loanAcctNum) return;
+
+        const subscription = this.voucherService.getLoanByAccountNumber(loanAcctNum)
+            .subscribe({
+                next: (loan) => {
+                    if (!loan) return;
+
+                    this.form.patchValue({
+                        productCode: loan.productCode,
+                        ccy: loan.ccy
+                    });
+
+                    this.form.get('productCode')?.disable();
+                    this.isReadonly = true;
+                },
+                error: () => {
+                    this.form.reset();
+                    this.form.markAsUntouched();
+
+                    this.isReadonly = true;
+
+                }
+            });
+
+        this.destroyRef.onDestroy(() => subscription.unsubscribe());
     }
 
     // Dark Mode

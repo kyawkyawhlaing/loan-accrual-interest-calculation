@@ -11,4 +11,8 @@ export class LatefeeService {
     createRepaymentVoucher(voucher: Repayment) {
         return this.http.post<string>(this.baseUrl + 'penaltyRepayment/create', voucher);
     }
+
+    getLoanByAccountNumber(loanAcctNumber: string) {
+        return this.http.get<any>(this.baseUrl + 'principalRepayment/' + loanAcctNumber);
+    }
 }

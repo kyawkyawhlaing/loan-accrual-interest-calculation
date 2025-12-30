@@ -5,10 +5,13 @@ import { catchError } from 'rxjs';
 
 import { NavigationExtras, Router } from '@angular/router';
 import { ToastService } from '../services/toast.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CustomSnackbarComponent } from '../../shared/alert/custom-snackbar.component';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const toast = inject(ToastService);
   const router = inject(Router);
+  const snackBar = inject(MatSnackBar);
 
   return next(req).pipe(
     catchError(error => {
@@ -24,18 +27,32 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
                 }
                 throw modelStateErrors.flat()
               } else {
-                toast.error(error.error)
+                snackBar.openFromComponent(CustomSnackbarComponent, {
+                    data: { message: error.error, type: 'error' },
+                    verticalPosition: 'top',
+                    horizontalPosition: 'center',
+                    panelClass: [`snackbar-error`]
+                });
               }
               break;
             case 401:
-              toast.error('unauthorized');
+                snackBar.openFromComponent(CustomSnackbarComponent, {
+                    data: { message: 'unauthorized', type: 'error' },
+                    verticalPosition: 'top',
+                    horizontalPosition: 'center',
+                    panelClass: [`snackbar-error`]
+                });
               break;
             case 404:
               router.navigateByUrl('/not-found')
               break;
             case 500:
-              console.log(error.error)
-              toast.error(error.error.message)
+                snackBar.openFromComponent(CustomSnackbarComponent, {
+                    data: { message: error.error.message, type: 'error' },
+                    verticalPosition: 'top',
+                    horizontalPosition: 'center',
+                    panelClass: [`snackbar-error`]
+                });
               // const navigationExtras: NavigationExtras = {state: {error: error.error}};
               // router.navigateByUrl('/server-error', navigationExtras);
               break;

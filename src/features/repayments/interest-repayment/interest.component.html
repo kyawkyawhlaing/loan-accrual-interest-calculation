@@ -43,7 +43,7 @@
                                     <mat-label>
                                         Account Number
                                     </mat-label>
-                                    <input formControlName="loanAcctNum" appUppercase matInput placeholder="E.g. DCF-001">
+                                    <input formControlName="loanAcctNum" appUppercase matInput placeholder="E.g. DCF-001" (keydown.enter)="onLoanAccountEnter()" >
                                 </mat-form-field>
                                 @if (loanAccountNumberIsRequired) {
                                 <div class="error text-danger">
@@ -109,7 +109,7 @@
                                     <mat-label>
                                         Currency
                                     </mat-label>
-                                    <input formControlName="ccy" appUppercase matInput placeholder="E.g. MMK">
+                                    <input formControlName="ccy" appUppercase matInput placeholder="E.g. MMK" [readonly]="isReadonly">
                                 </mat-form-field>
                                 @if (currencyCodeIsRequired) {
                                 <div class="error text-danger">

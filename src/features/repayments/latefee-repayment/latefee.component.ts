@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, DestroyRef, inject } from '@angular/core';
 import {
     FormBuilder,
     FormControl,
@@ -53,8 +53,11 @@ export class LatefeeComponent {
     private snackBar = inject(MatSnackBar);
     private voucherService = inject(LatefeeService);
     private utilsService = inject(UtilsService);
+    private destroyRef = inject(DestroyRef);
 
     protected form: FormGroup = new FormGroup({});
+
+    isReadonly = false;
 
     // Text Editor
     editor: Editor;
@@ -137,6 +140,36 @@ export class LatefeeComponent {
                     });
                 },
             });
+    }
+
+    onLoanAccountEnter() {
+        const loanAcctNum = this.form.value?.loanAcctNum;
+
+        if (!loanAcctNum) return;
+
+        const subscription = this.voucherService.getLoanByAccountNumber(loanAcctNum)
+            .subscribe({
+                next: (loan) => {
+                    if (!loan) return;
+
+                    this.form.patchValue({
+                        productCode: loan.productCode,
+                        ccy: loan.ccy
+                    });
+
+                    this.form.get('productCode')?.disable();
+                    this.isReadonly = true;
+                },
+                error: () => {
+                    this.form.reset();
+                    this.form.markAsUntouched();
+
+                    this.isReadonly = true;
+
+                }
+            });
+
+        this.destroyRef.onDestroy(() => subscription.unsubscribe());
     }
 
     // Dark Mode

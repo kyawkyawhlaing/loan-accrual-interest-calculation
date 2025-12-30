@@ -37,7 +37,7 @@ import { UppercaseDirective } from "../../../shared/directives/uppercase.directi
         FileUploadModule,
         NgxEditorModule,
         ThousandSeparatorDirective,
-        UppercaseDirective
+        UppercaseDirective,
     ],
     templateUrl: 'principal.component.html',
     styleUrl: 'principal.component.scss',
@@ -47,8 +47,11 @@ export class PrincipalComponent {
     private snackBar = inject(MatSnackBar);
     private voucherService = inject(PrincipalService);
     private utilsService = inject(UtilsService);
+    private destroyRef = inject(DestroyRef);
 
     protected form: FormGroup = new FormGroup({});
+
+    isReadonly = false;
 
     // Text Editor
     editor: Editor;
@@ -111,6 +114,7 @@ export class PrincipalComponent {
                 this.form.reset();
                 this.form.markAsPristine();
                 this.form.markAsUntouched();
+                this.form.get('productCode')?.enable();
                 this.snackBar.openFromComponent(CustomSnackbarComponent, {
                     data: { message: 'Principal voucher is saved successfully!', type: 'success' },
                     verticalPosition: 'top',
@@ -119,6 +123,7 @@ export class PrincipalComponent {
                 });
             },
             error: (error) => {
+                this.form.get('productCode')?.enable();
                 this.snackBar.openFromComponent(CustomSnackbarComponent, {
                     data: { message: error.error.message, type: 'error' },
                     verticalPosition: 'top',
@@ -127,6 +132,36 @@ export class PrincipalComponent {
                 });
             }
         })
+    }
+
+    onLoanAccountEnter() {
+        const loanAcctNum = this.form.value?.loanAcctNum;
+
+        if (!loanAcctNum) return;
+
+        const subscription = this.voucherService.getLoanByAccountNumber(loanAcctNum)
+            .subscribe({
+                next: (loan) => {
+                    if (!loan) return;
+
+                    this.form.patchValue({
+                        productCode: loan.productCode,
+                        ccy: loan.ccy
+                    });
+
+                    this.form.get('productCode')?.disable();
+                    this.isReadonly = true;
+                },
+                error: () => {
+                    this.form.reset();
+                    this.form.markAsUntouched();
+
+                    this.isReadonly = true;
+
+                }
+            });
+
+        this.destroyRef.onDestroy(() => subscription.unsubscribe());
     }
 
     // Dark Mode

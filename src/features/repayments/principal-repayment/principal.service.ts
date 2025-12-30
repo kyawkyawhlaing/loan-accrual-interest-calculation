@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 import { environment } from '../../../environments/environment.development';
 import { Repayment } from '../../../shared/types/repayment';
@@ -11,5 +11,9 @@ export class PrincipalService {
 
     createRepaymentVoucher(voucher: Repayment) {
         return this.http.post<string>(this.baseUrl + 'principalRepayment/create', voucher);
+    }
+
+    getLoanByAccountNumber(loanAcctNumber: string) {
+        return this.http.get<any>(this.baseUrl + 'principalRepayment/' + loanAcctNumber);
     }
 }
