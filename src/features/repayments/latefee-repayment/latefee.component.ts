@@ -80,7 +80,7 @@ export class LatefeeComponent {
 
     // Product Code Select
     product = new FormControl('');
-    productList: string[] = ['DCF', 'FCF', 'PEF', 'TTF', 'STF'];
+    productList: string[] = ['DCF', 'FCF', 'PEF', 'INF', 'STF'];
 
     // isToggled
     isToggled = false;

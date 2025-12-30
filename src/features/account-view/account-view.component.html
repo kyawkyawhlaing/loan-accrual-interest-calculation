@@ -1,0 +1,147 @@
+<!-- Breadcrumb -->
+<div
+    class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-between"
+>
+    <h5 class="mb-0">Account View</h5>
+    <ol class="breadcrumb list-unstyled mt-0 mb-0 pl-0">
+        <li class="breadcrumb-item position-relative">
+            <a class="d-inline-block position-relative">
+                <i class="ri-home-8-line"></i>
+                Lists
+            </a>
+        </li>
+        <li class="breadcrumb-item position-relative">Account View</li>
+    </ol>
+</div>
+
+<!-- To Do List -->
+<mat-card
+    class="daxa-card to-do-list-card mb-25 border-radius bg-white border-none d-block"
+    [class.rtl-enabled]="themeService.isRTLEnabled()"
+>
+
+    <mat-card-header>
+        <mat-card-subtitle>
+            <form class="search-box position-relative">
+                <i class="material-symbols-outlined"> search </i>
+                <input
+                    type="text" class="input-search d-block w-100 border-none outline-0"
+                    placeholder="Search here..."
+                    (keyup)="applyFilter($event)" #input />
+            </form>
+        </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <div class="performance-of-agents-table">
+            <div class="table-responsive">
+                <table mat-table [dataSource]="dataSource">
+                    <!-- ID Column -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef>ID</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.id }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Loan Account Number Column -->
+                    <ng-container matColumnDef="loanAcctNum">
+                        <th mat-header-cell *matHeaderCellDef>Loan Account</th>
+                        <td
+                            mat-cell
+                            *matCellDef="let element"
+                            class="text-black"
+                        >
+                            <div class="info d-flex align-items-center">
+                                <span class="d-block fw-medium">
+                                    {{ element.loanAcctNum }}
+                                </span>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Loan Account Name Column -->
+                    <ng-container matColumnDef="loanAcctName">
+                        <th mat-header-cell *matHeaderCellDef>Loan Account Name</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.loanAcctName }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Outstanding Principal Amount Column -->
+                    <ng-container matColumnDef="outsPrinAmt">
+                        <th mat-header-cell *matHeaderCellDef>Outstanding Principal</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.outsPrinAmt }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Total Accrued Interest Amount Column -->
+                    <ng-container matColumnDef="ttlAccIntAmt">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Interest Amount
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.ttlAccIntAmt }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Total Accrued Late Fee Amount Column -->
+                    <ng-container matColumnDef="ttlAccPenalAmt">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Late Fee Amount
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.ttlAccPenalAmt }}
+                        </td>
+                    </ng-container>
+
+                    <!-- Interest Rate Column -->
+                    <ng-container matColumnDef="intRate">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Interest Rate
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="d-flex align-items-center">
+                                <span class="percentage d-block text-body">
+                                    {{ element.intRate }}%
+                                </span>
+                                <mat-progress-bar
+                                    mode="determinate"
+                                    [value]="element.intRate"
+                                ></mat-progress-bar>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <!-- Late Fee Rate Column -->
+                    <ng-container matColumnDef="penalRate">
+                        <th mat-header-cell *matHeaderCellDef>
+                            Late Fee Rate
+                        </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="d-flex align-items-center">
+                                <span class="percentage d-block text-body">
+                                    {{ element.penalRate }}%
+                                </span>
+                                <mat-progress-bar
+                                    mode="determinate"
+                                    [value]="element.penalRate"
+                                ></mat-progress-bar>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr
+                        mat-row
+                        *matRowDef="let row; columns: displayedColumns"
+                    ></tr>
+                </table>
+            </div>
+            <mat-paginator
+                [pageSizeOptions]="[6, 12, 18]"
+                showFirstLastButtons
+            ></mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>

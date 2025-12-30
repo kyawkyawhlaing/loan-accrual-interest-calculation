@@ -8,11 +8,13 @@ import { InternalErrorComponent } from '../shared/error/internal-error/internal-
 import { NotFoundComponent } from '../shared/error/not-found/not-found.component';
 import { BackgroundServicesComponent } from '../features/background-services/background-services.component';
 import { EodComponent } from '../features/background-services/eod/eod.component';
+import { AccountViewComponent } from '../features/account-view/account-view.component';
 
 
 
 
 export const routes: Routes = [
+    { path: 'account-view', component: AccountViewComponent },
     {
         path: 'repayments', component: RepaymentsComponent,
         children: [
