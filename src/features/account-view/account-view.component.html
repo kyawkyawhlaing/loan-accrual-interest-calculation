@@ -139,7 +139,9 @@
                 </table>
             </div>
             <mat-paginator
-                [pageSizeOptions]="[6, 12, 18]"
+                [length]="loanAccountParams.totalCount"
+                [pageSize]="loanAccountParams.pageSize"
+                [pageSizeOptions]="[10, 25, 50]"
                 showFirstLastButtons
             ></mat-paginator>
         </div>
