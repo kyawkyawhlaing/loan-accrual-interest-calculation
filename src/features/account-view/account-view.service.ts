@@ -16,7 +16,7 @@ export class AccountViewService {
         let params = new HttpParams();
         params = params.append('pageNumber', loanAccountParams.pageNumber);
         params = params.append('pageSize', loanAccountParams.pageSize);
-        params = params.append('searchTerms', loanAccountParams.searchTerms);
+        params = params.append('searchTerms', loanAccountParams.searchTerms || '');
 
         return this.http.get<PaginatedResult<LoanAccount>>(this.baseUrl + 'loanAccounts/accounts', {params});
     }
