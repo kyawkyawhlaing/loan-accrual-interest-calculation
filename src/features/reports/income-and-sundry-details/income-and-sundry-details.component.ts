@@ -15,7 +15,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { environment } from '../../../environments/environment.development';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-income-and-sundry-details',
@@ -34,7 +34,8 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
     styleUrl: 'income-and-sundry-details.component.scss',
 })
 export class IncomeAndSundryDetailsComponent implements OnDestroy {
-    src!: SafeResourceUrl;
+    src!: Blob;
+    fileName: string;
 
     private baseUrl = environment.apiUrl;
     private fb = inject(FormBuilder);
@@ -67,10 +68,12 @@ export class IncomeAndSundryDetailsComponent implements OnDestroy {
             )
             .subscribe({
                 next: (response) => {
-                    const blob = response.body!;
-                    this.src = this.sanitizer.bypassSecurityTrustResourceUrl(
-                        URL.createObjectURL(blob)
-                    );
+                    this.fileName = response.headers.get('content-disposition')?.split('filename=')[1]?.trim().replace(/"/g, '') || 'unknown';
+
+                    const blob = new File([response.body!], this.fileName, {type: 'application/pdf' });
+                    this.src = blob;
+
+
                     this.form.reset(this.form.value);
                     this.form.markAsPristine();
                     this.form.markAsUntouched();

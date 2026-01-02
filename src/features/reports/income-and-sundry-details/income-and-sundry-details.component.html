@@ -84,8 +84,12 @@
 </form>
 
 @if (src) {
-<div style="height: 100vh;">
-  <iframe [src]="src" width="100%" height="100%" title="Test.pdf"></iframe>
+<div style="height: 90vh;">
+  <ngx-extended-pdf-viewer
+    [src]="src"
+    [filenameForDownload]="fileName"
+    [height]="'100%'">
+  </ngx-extended-pdf-viewer>
 </div>
 }
 
