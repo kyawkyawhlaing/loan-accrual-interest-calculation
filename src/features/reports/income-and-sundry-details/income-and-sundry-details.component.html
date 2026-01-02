@@ -1,0 +1,54 @@
+<!-- Breadcrumb -->
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-between">
+    <h5 class="mb-0">
+        Create Reports
+    </h5>
+    <ol class="breadcrumb list-unstyled mt-0 mb-0 pl-0">
+        <li class="breadcrumb-item position-relative">
+            <a routerLink="/" class="d-inline-block position-relative">
+                <i class="ri-home-line"></i>
+                Reports
+            </a>
+        </li>
+        <li class="breadcrumb-item position-relative">
+            Income and Sundry Details
+        </li>
+    </ol>
+</div>
+
+
+@if (src) {
+<ngx-extended-pdf-viewer [src]="src" [height]="'auto'"></ngx-extended-pdf-viewer>
+} @else {
+<!-- Income and Sundry Details -->
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
+        <div class="col-xxl-12 col-xxxl-12">
+            <mat-card class="daxa-card create-course-card mb-25 border-radius bg-white border-none d-block">
+                <mat-card-header>
+                    <mat-card-title>
+                        <h5 class="mt-0 mb-0">
+                            Generate a Income and Sundry Details
+                        </h5>
+                    </mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+
+
+                    </div>
+
+                    @if (form.valid) {
+                    <div class="btn-box d-md-flex align-items-center justify-content-end">
+                        <button mat-button>
+                            Process
+                        </button>
+                    </div>
+                    }
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</form>
+}

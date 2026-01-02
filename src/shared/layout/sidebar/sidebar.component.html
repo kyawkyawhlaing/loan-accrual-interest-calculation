@@ -30,14 +30,26 @@
                     <span class="sub-title text-body">
                         LISTS
                     </span>
-                    <a routerLink="/to-do-list" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-                        <i class="material-symbols-outlined">
-                            ballot
-                        </i>
-                        <span class="title">
-                            Report List
-                        </span>
-                    </a>
+                                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                <i class="material-symbols-outlined">
+                                    ballot
+                                </i>
+                                <span class="title">
+                                    Reports
+                                </span>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <ul class="sidebar-sub-menu">
+                            <li class="sidemenu-item">
+                                <a routerLink="/report/income-and-sundry-details" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                    Income and Sundry Details
+                                </a>
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+
                     <a routerLink="/account-view" class="sidebar-menu-link" routerLinkActive="active"
                         [routerLinkActiveOptions]="{exact: true}">
                         <i class="material-symbols-outlined">
