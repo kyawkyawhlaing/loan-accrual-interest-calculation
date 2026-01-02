@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
     FormBuilder,
     FormGroup,
@@ -15,7 +15,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { environment } from '../../../environments/environment.development';
-import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browser';
 
 @Component({
     selector: 'app-income-and-sundry-details',
@@ -40,7 +39,6 @@ export class IncomeAndSundryDetailsComponent {
     private baseUrl = environment.apiUrl;
     private fb = inject(FormBuilder);
     private http = inject(HttpClient);
-    private sanitizer = inject(DomSanitizer);
 
     protected readonly form: FormGroup = new FormGroup({});
 

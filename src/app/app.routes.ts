@@ -15,6 +15,7 @@ import { IncomeAndSundryDetailsComponent } from '../features/reports/income-and-
 
 
 export const routes: Routes = [
+    { path: '', component: AccountViewComponent },
     { path: 'account-view', component: AccountViewComponent },
     {
         path: 'report',
