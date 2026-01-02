@@ -1,7 +1,7 @@
 export interface ReportDto {
-    date: string;
-    startDate: string;
-    endDate: string;
+    date?: Date;
+    startDate?: Date;
+    endDate?: Date;
     format: string;
     reportFullName: string;
 }

@@ -47,6 +47,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
               router.navigateByUrl('/not-found')
               break;
             case 500:
+                console.log(error)
                 snackBar.openFromComponent(CustomSnackbarComponent, {
                     data: { message: error.error.message, type: 'error' },
                     verticalPosition: 'top',

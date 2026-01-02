@@ -7,7 +7,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { errorInterceptor } from '../core/interceptors/error.interceptor';
 import { loadingInterceptor } from '../core/interceptors/loading.interceptor';
-import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { NgxExtendedPdfViewerModule, pdfDefaultOptions } from 'ngx-extended-pdf-viewer';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -15,7 +15,7 @@ export const appConfig: ApplicationConfig = {
         provideRouter(routes),
         // provideClientHydration(),
         provideAnimations(),
-        provideHttpClient(withInterceptors([errorInterceptor, loadingInterceptor])),
-        importProvidersFrom(NgxExtendedPdfViewerModule)
+        provideHttpClient(withInterceptors([errorInterceptor, loadingInterceptor]))
     ],
 };
+

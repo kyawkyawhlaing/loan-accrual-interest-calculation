@@ -16,10 +16,6 @@
     </ol>
 </div>
 
-
-@if (src) {
-<ngx-extended-pdf-viewer [src]="src" [height]="'auto'"></ngx-extended-pdf-viewer>
-} @else {
 <!-- Income and Sundry Details -->
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="row">
@@ -35,14 +31,49 @@
 
                 <mat-card-content>
                     <div class="row">
+                        <div class="col-sm-6">
+                            <div class="mb-25">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Start Date
+                                </label>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>MM/DD/YYYY</mat-label>
+                                    <input formControlName="startDate" matInput [matDatepicker]="picker1">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
+                                @if (startDateIsRequired) {
+                                <div class="error text-danger">
+                                    Start Date is required.
+                                </div>
+                                }
+                            </div>
+                        </div>
 
-
+                        <div class="col-sm-6">
+                            <div class="mb-25">
+                                <label class="main-label d-block lh-1 text-black">
+                                    End Date
+                                </label>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>MM/DD/YYYY</mat-label>
+                                    <input formControlName="endDate" matInput [matDatepicker]="picker2">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+                                @if (endDateIsRequired) {
+                                <div class="error text-danger">
+                                    End Date is required.
+                                </div>
+                                }
+                            </div>
+                        </div>
                     </div>
 
                     @if (form.valid) {
                     <div class="btn-box d-md-flex align-items-center justify-content-end">
                         <button mat-button>
-                            Process
+                            Generate
                         </button>
                     </div>
                     }
@@ -51,4 +82,11 @@
         </div>
     </div>
 </form>
+
+@if (src) {
+<div style="height: 100vh;">
+  <iframe [src]="src" width="100%" height="100%" title="Test.pdf"></iframe>
+</div>
 }
+
+
