@@ -33,7 +33,7 @@ import { DomSanitizer, SafeResourceUrl, SafeUrl } from '@angular/platform-browse
     templateUrl: 'income-and-sundry-details.component.html',
     styleUrl: 'income-and-sundry-details.component.scss',
 })
-export class IncomeAndSundryDetailsComponent implements OnDestroy {
+export class IncomeAndSundryDetailsComponent {
     src!: Blob;
     fileName: string;
 
@@ -79,13 +79,6 @@ export class IncomeAndSundryDetailsComponent implements OnDestroy {
                     this.form.markAsUntouched();
                 },
             });
-    }
-
-    ngOnDestroy(): void {
-        if (this.src) {
-            const url = (this.src as any).changingThisBreaksApplicationSecurity;
-            URL.revokeObjectURL(url);
-        }
     }
 
     get startDateIsRequired() {
