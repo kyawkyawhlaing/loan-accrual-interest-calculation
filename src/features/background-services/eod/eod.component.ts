@@ -16,6 +16,8 @@ import { CustomizerSettingsService } from "../../../core/customizer-settings/cus
 import { CustomSnackbarComponent } from "../../../shared/alert/custom-snackbar.component";
 import { EodService } from "./eod.service";
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { formatDate } from "@angular/common";
+import { UtilsService } from "../../../core/services/utils.service";
 
 
 @Component({
@@ -42,6 +44,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 export class EodComponent {
     private fb = inject(FormBuilder);
     private snackBar = inject(MatSnackBar);
+    private utilsService = inject(UtilsService);
 
     protected eodService = inject(EodService);
     protected form: FormGroup = new FormGroup({});
@@ -90,7 +93,7 @@ export class EodComponent {
         this.eodService
             .processEod({
                 ...this.form.value,
-                eodDate: (this.form.value.eodDate as Date).toISOString(), // convert local time to UTC Timezone
+                eodDate: this.utilsService.toUtcDate(this.form.value.eodDate as Date),
             })
             .subscribe({
                 next: () => {

@@ -1,24 +1,14 @@
-<div
-    class="sidebar-area bg-white active"
-    [ngClass]="{'active': isSidebarToggled}"
-    [class.component-dark-theme]="themeService.isDark()"
-    [class.dark-sidebar]="themeService.isSidebarDark()"
-    [class.right-sidebar]="themeService.isRightSidebar()"
-    [class.hide-sidebar]="themeService.isHideSidebar()"
-    [class.card-borderd-theme]="themeService.isCardBorder()"
-    [class.rtl-enabled]="themeService.isRTLEnabled()"
->
+<div class="sidebar-area bg-white active" [ngClass]="{'active': isSidebarToggled}"
+    [class.component-dark-theme]="themeService.isDark()" [class.dark-sidebar]="themeService.isSidebarDark()"
+    [class.right-sidebar]="themeService.isRightSidebar()" [class.hide-sidebar]="themeService.isHideSidebar()"
+    [class.card-borderd-theme]="themeService.isCardBorder()" [class.rtl-enabled]="themeService.isRTLEnabled()">
     <div class="logo bg-white">
         <a routerLink="/" class="d-flex align-items-center">
             <img src="assets/images/ace.png" alt="logo-icon" width="100" height="20">
             <span class="fw-semibold"></span>
         </a>
     </div>
-    <div
-        (click)="toggle()"
-        class="burger-menu"
-        [ngClass]="{'active': isSidebarToggled}"
-    >
+    <div (click)="toggle()" class="burger-menu" [ngClass]="{'active': isSidebarToggled}">
         <span class="top-bar"></span>
         <span class="middle-bar"></span>
         <span class="bottom-bar"></span>
@@ -30,7 +20,18 @@
                     <span class="sub-title text-body">
                         LISTS
                     </span>
-                                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
+                    
+                    <a routerLink="/account-view" class="sidebar-menu-link" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">
+                        <i class="material-symbols-outlined">
+                            check_circle
+                        </i>
+                        <span class="title">
+                            Account View
+                        </span>
+                    </a>
+
+                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
                                 <i class="material-symbols-outlined">
@@ -43,22 +44,13 @@
                         </mat-expansion-panel-header>
                         <ul class="sidebar-sub-menu">
                             <li class="sidemenu-item">
-                                <a routerLink="/report/income-and-sundry-details" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                <a routerLink="/report/income-and-sundry-details" routerLinkActive="active"
+                                    [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
                                     Income and Sundry Details
                                 </a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
-
-                    <a routerLink="/account-view" class="sidebar-menu-link" routerLinkActive="active"
-                        [routerLinkActiveOptions]="{exact: true}">
-                        <i class="material-symbols-outlined">
-                            check_circle
-                        </i>
-                        <span class="title">
-                            Account View
-                        </span>
-                    </a>
 
                     <span class="sub-title text-body">
                         PAGES
@@ -77,17 +69,20 @@
                         </mat-expansion-panel-header>
                         <ul class="sidebar-sub-menu">
                             <li class="sidemenu-item">
-                                <a routerLink="/repayments/principal/create-principal" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                <a routerLink="/repayments/principal/create-principal" routerLinkActive="active"
+                                    [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
                                     Principal
                                 </a>
                             </li>
                             <li class="sidemenu-item">
-                                <a routerLink="/repayments/interest/create-interest" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                <a routerLink="/repayments/interest/create-interest" routerLinkActive="active"
+                                    [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
                                     Interest
                                 </a>
                             </li>
                             <li class="sidemenu-item">
-                                <a routerLink="/repayments/latefee/create-latefee" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                <a routerLink="/repayments/latefee/create-latefee" routerLinkActive="active"
+                                    [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
                                     Late Fee
                                 </a>
                             </li>
@@ -107,14 +102,16 @@
                         </mat-expansion-panel-header>
                         <ul class="sidebar-sub-menu">
                             <li class="sidemenu-item">
-                                <a routerLink="/background-services/eod/process-eod" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                <a routerLink="/background-services/eod/process-eod" routerLinkActive="active"
+                                    [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
                                     EOD
                                 </a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
 
-                    <a routerLink="/authentication/logout" class="sidebar-menu-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+                    <a routerLink="/authentication/logout" class="sidebar-menu-link" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">
                         <i class="material-symbols-outlined">
                             logout
                         </i>

@@ -7,14 +7,11 @@ export class UtilsService {
         return Number(value.replace(/,/g, ''));
     }
 
-    public parseUtcDate(value: string) {
+    public toUtcDate(value: Date) {
         const now = new Date();
 
-        const hh = now.getUTCHours().toString().padStart(2, '0');
-        const mm = now.getUTCMinutes().toString().padStart(2, '0');
-        const ss = now.getUTCSeconds().toString().padStart(2, '0');
-        const utcDate = new Date(`${value}T${hh}:${mm}:${ss}Z`).toISOString();
-        
-        return utcDate;
+        value.setHours(now.getHours(), now.getMinutes(), now.getSeconds(), now.getMilliseconds());
+
+        return value.toISOString();
     }
 }
