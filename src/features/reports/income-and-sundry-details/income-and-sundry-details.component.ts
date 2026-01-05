@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import {
     FormBuilder,
+    FormControl,
     FormGroup,
     FormsModule,
     ReactiveFormsModule,
@@ -15,6 +16,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { environment } from '../../../environments/environment.development';
+import { MatSelectModule } from '@angular/material/select';
+import { saveAs } from 'file-saver';
 
 @Component({
     selector: 'app-income-and-sundry-details',
@@ -28,6 +31,7 @@ import { environment } from '../../../environments/environment.development';
         MatDatepickerModule,
         MatNativeDateModule,
         MatButtonModule,
+        MatSelectModule
     ],
     templateUrl: 'income-and-sundry-details.component.html',
     styleUrl: 'income-and-sundry-details.component.scss',
@@ -42,10 +46,15 @@ export class IncomeAndSundryDetailsComponent {
 
     protected readonly form: FormGroup = new FormGroup({});
 
+    // Format Type Select
+    format = new FormControl('');
+    formatList: string[] = ['PDF', 'EXCEL'];
+
     constructor() {
         this.form = this.fb.group({
             startDate: ['', [Validators.required]],
             endDate: ['', [Validators.required]],
+            format: ['', Validators.required],
         });
     }
 
@@ -58,7 +67,7 @@ export class IncomeAndSundryDetailsComponent {
                         this.form.value.startDate as Date
                     ).toISOString(),
                     endDate: (this.form.value.endDate as Date).toISOString(),
-                    format: 'pdf',
+                    format: (this.form.value.format as string).toLowerCase(),
                     reportFullName:
                         'Loan_Account_Income_and_Sundry_Details.jrxml',
                 },
@@ -68,10 +77,14 @@ export class IncomeAndSundryDetailsComponent {
                 next: (response) => {
                     this.fileName = response.headers.get('content-disposition')?.split('filename=')[1]?.trim().replace(/"/g, '') || 'unknown';
 
-                    const blob = new File([response.body!], this.fileName, {type: 'application/pdf' });
-                    this.src = blob;
-
-
+                    if (this.form.value.format.toLowerCase() === 'pdf') {
+                        const blob = new File([response.body!], this.fileName, {type: 'application/pdf' });
+                        this.src = blob;
+                    }
+                    if (this.form.value.format.toLowerCase() === 'excel') {
+                        const blob = new File([response.body!], this.fileName, {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+                        saveAs(blob, this.fileName);
+                    }
                     this.form.reset(this.form.value);
                     this.form.markAsPristine();
                     this.form.markAsUntouched();
@@ -90,6 +103,13 @@ export class IncomeAndSundryDetailsComponent {
         return (
             this.form.get('endDate')!.hasError('required') &&
             this.form.get('endDate')!.touched
+        );
+    }
+
+    get formatIsRequired() {
+        return (
+            this.form.get('format')!.hasError('required') &&
+            this.form.get('format')!.touched
         );
     }
 }
