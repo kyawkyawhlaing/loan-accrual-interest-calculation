@@ -10,6 +10,7 @@ import { BackgroundServicesComponent } from '../features/background-services/bac
 import { EodComponent } from '../features/background-services/eod/eod.component';
 import { AccountViewComponent } from '../features/account-view/account-view.component';
 import { IncomeAndSundryDetailsComponent } from '../features/reports/income-and-sundry-details/income-and-sundry-details.component';
+import { OverdueFeeIncomeAndSundryDetailsComponent } from '../features/reports/overdue-fee-income-and-sundry-details/overdue-fee-income-and-sundry-details.component';
 
 
 
@@ -20,7 +21,8 @@ export const routes: Routes = [
     {
         path: 'report',
         children: [
-            { path: 'income-and-sundry-details', component: IncomeAndSundryDetailsComponent}
+            { path: 'income-and-sundry-details', component: IncomeAndSundryDetailsComponent },
+            { path: 'overdue-fee-income-and-sundry-details', component: OverdueFeeIncomeAndSundryDetailsComponent }
         ]
     },
     {
