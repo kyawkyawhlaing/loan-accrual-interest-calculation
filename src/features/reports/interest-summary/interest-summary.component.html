@@ -1,0 +1,119 @@
+<!-- Breadcrumb -->
+<div class="breadcrumb-card mb-25 d-md-flex align-items-center justify-content-between">
+    <h5 class="mb-0">
+        Create Reports
+    </h5>
+    <ol class="breadcrumb list-unstyled mt-0 mb-0 pl-0">
+        <li class="breadcrumb-item position-relative">
+            <a routerLink="/" class="d-inline-block position-relative">
+                <i class="ri-home-line"></i>
+                Reports
+            </a>
+        </li>
+        <li class="breadcrumb-item position-relative">
+            Interest Summary
+        </li>
+    </ol>
+</div>
+
+<!-- Interest Summary -->
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="row">
+        <div class="col-xxl-12 col-xxxl-12">
+            <mat-card class="daxa-card create-course-card mb-25 border-radius bg-white border-none d-block">
+                <mat-card-header>
+                    <mat-card-title>
+                        <h5 class="mt-0 mb-0">
+                            Interest Summary
+                        </h5>
+                    </mat-card-title>
+                </mat-card-header>
+
+                <mat-card-content>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="mb-25">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Start Date
+                                </label>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>MM/DD/YYYY</mat-label>
+                                    <input formControlName="startDate" matInput [matDatepicker]="picker1">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
+                                @if (startDateIsRequired) {
+                                <div class="error text-danger">
+                                    Start Date is required.
+                                </div>
+                                }
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6">
+                            <div class="mb-25">
+                                <label class="main-label d-block lh-1 text-black">
+                                    End Date
+                                </label>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>MM/DD/YYYY</mat-label>
+                                    <input formControlName="endDate" matInput [matDatepicker]="picker2">
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+                                @if (endDateIsRequired) {
+                                <div class="error text-danger">
+                                    End Date is required.
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="mb-25">
+                                <label class="main-label d-block lh-1 text-black">
+                                    Format Type
+                                </label>
+                                <mat-form-field>
+                                    <mat-label>
+                                        Select
+                                    </mat-label>
+                                    <mat-select formControlName="format" >
+                                        @for (format of formatList; track format) {
+                                            <mat-option [value]="format">{{format}}</mat-option>
+                                        }
+                                    </mat-select>
+                                </mat-form-field>
+                                @if (formatIsRequired) {
+                                <div class="error text-danger">
+                                    Format Type is required.
+                                </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (form.valid) {
+                    <div class="btn-box d-md-flex align-items-center justify-content-end">
+                        <button mat-button>
+                            Generate
+                        </button>
+                    </div>
+                    }
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</form>
+
+@if (src) {
+    <div style="height: 90vh;">
+    <ngx-extended-pdf-viewer
+        [src]="src"
+        [filenameForDownload]="fileName"
+        [height]="'100%'">
+    </ngx-extended-pdf-viewer>
+    </div>
+}
