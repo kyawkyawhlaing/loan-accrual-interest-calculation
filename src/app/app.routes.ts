@@ -13,6 +13,7 @@ import { IncomeAndSundryDetailsComponent } from '../features/reports/income-and-
 import { OverdueFeeIncomeAndSundryDetailsComponent } from '../features/reports/overdue-fee-income-and-sundry-details/overdue-fee-income-and-sundry-details.component';
 import { LoanPrincipleOverdueFeeSummaryComponent } from '../features/reports/loan-principle-overdue-fee-summary/loan-principle-overdue-fee-summary.component';
 import { InterestSummaryComponent } from '../features/reports/interest-summary/interest-summary.component';
+import { InterestDetailComponent } from '../features/reports/interest-detail/interest-detail.component';
 
 
 
@@ -26,7 +27,8 @@ export const routes: Routes = [
             { path: 'income-and-sundry-details', component: IncomeAndSundryDetailsComponent },
             { path: 'overdue-fee-income-and-sundry-details', component: OverdueFeeIncomeAndSundryDetailsComponent },
             { path: 'loan-principle-overdue-fee-summary', component: LoanPrincipleOverdueFeeSummaryComponent},
-            { path: 'interest-summary', component: InterestSummaryComponent}
+            { path: 'interest-summary', component: InterestSummaryComponent},
+            { path: 'interest-detail', component: InterestDetailComponent}
         ]
     },
     {
