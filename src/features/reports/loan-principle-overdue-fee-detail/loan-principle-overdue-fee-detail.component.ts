@@ -1,7 +1,14 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment.development';
+import { HttpClient } from '@angular/common/http';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { saveAs } from 'file-saver';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
@@ -9,39 +16,39 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
-  selector: 'app-interest-detail',
-  imports: [
-      NgxExtendedPdfViewerModule,
-      MatCardModule,
-      FormsModule,
-      ReactiveFormsModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatDatepickerModule,
-      MatNativeDateModule,
-      MatButtonModule,
-      MatSelectModule
-  ],
-  providers: [DatePipe],
-  templateUrl: './interest-detail.component.html',
-  styleUrl: './interest-detail.component.scss',
+    selector: 'app-loan-principle-overdue-fee-detail',
+    imports: [
+        NgxExtendedPdfViewerModule,
+        MatCardModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatButtonModule,
+        MatSelectModule
+    ],
+    providers: [DatePipe],
+    templateUrl: './loan-principle-overdue-fee-detail.component.html',
+    styleUrl: './loan-principle-overdue-fee-detail.component.scss',
 })
-export class InterestDetailComponent {
+export class LoanPrincipleOverdueFeeDetailComponent {
     src!: Blob;
     fileName: string;
 
+    private url = environment.apiUrl;
+    private http = inject(HttpClient);
+    private fb = inject(FormBuilder);
+
     protected readonly form: FormGroup = new FormGroup({});
 
-    private baseUrl = environment.apiUrl;
-    private fb = inject(FormBuilder);
-    private http = inject(HttpClient);
-    
-    // select box
+    // Format Type Select
     format = new FormControl('');
     formatList: string[] = ['PDF', 'EXCEL'];
 
@@ -49,25 +56,36 @@ export class InterestDetailComponent {
         this.form = this.fb.group({
             startDate: ['', [Validators.required]],
             endDate: ['', [Validators.required]],
-            format: ['', Validators.required]
+            format: ['', Validators.required],
         });
     }
 
     onSubmit(): void {
         this.http
             .post(
-                this.baseUrl + 'Report/GetLoanInterestDetail',
+                this.url + 'Report/GetLoanPrincipalOverdueFeeDetail',
                 {
-                    startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
-                    endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
+                    startDate: this.datePipe.transform(
+                        this.form.value.startDate as Date,
+                        'yyyy-MM-dd'
+                    ),
+                    endDate: this.datePipe.transform(
+                        this.form.value.endDate as Date,
+                        'yyyy-MM-dd'
+                    ),
                     format: (this.form.value.format as string).toLowerCase(),
-                    reportFullName: 'Loan_Account_Interest_Details.jrxml'
+                    reportFullName: 'Loan_Principal_Overdue_Fee_Details.jrxml',
                 },
                 { observe: 'response', responseType: 'blob' }
             )
             .subscribe({
                 next: (response) => {
-                    this.fileName = response.headers.get('content-disposition')?.split('filename=')[1]?.trim().replace(/"/g, '') || 'unknown';
+                    this.fileName =
+                        response.headers
+                            .get('content-disposition')
+                            ?.split('filename=')[1]
+                            ?.trim()
+                            .replace(/"/g, '') || 'unknown';
 
                     if (this.form.value.format.toLowerCase() === 'pdf') {
                         const blob = new File([response.body!], this.fileName, {
@@ -84,8 +102,8 @@ export class InterestDetailComponent {
                     this.form.reset(this.form.value);
                     this.form.markAsPristine();
                     this.form.markAsUntouched();
-                }
-            })
+                },
+            });
     }
 
     get startDateIsRequired() {
