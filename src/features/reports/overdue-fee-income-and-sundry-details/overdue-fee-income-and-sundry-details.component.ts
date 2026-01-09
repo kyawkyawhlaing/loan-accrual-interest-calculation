@@ -56,7 +56,7 @@ export class OverdueFeeIncomeAndSundryDetailsComponent {
     onSubmit(): void {
         this.http
             .post(
-                this.baseUrl + 'Report/GetLoanPrincipleOverdueFeeIncomeAndSundryDetail',
+                this.baseUrl + 'Report/GetLoanPrincipalOverdueFeeIncomeAndSundryDetail',
                 {
                     startDate: this.datePipe.transform(
                         this.form.value.startDate as Date, 'yyyy-MM-dd'
