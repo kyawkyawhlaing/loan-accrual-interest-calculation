@@ -21,7 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { saveAs } from 'file-saver';
 
 @Component({
-    selector: 'app-loan-principle-overdue-fee-summary',
+    selector: 'app-loan-principal-overdue-fee-summary',
     imports: [
         NgxExtendedPdfViewerModule,
         MatCardModule,
@@ -35,10 +35,10 @@ import { saveAs } from 'file-saver';
         MatSelectModule
     ],
     providers: [DatePipe],
-    templateUrl: './loan-principle-overdue-fee-summary.component.html',
-    styleUrl: './loan-principle-overdue-fee-summary.component.scss',
+    templateUrl: './loan-principal-overdue-fee-summary.component.html',
+    styleUrl: './loan-principal-overdue-fee-summary.component.scss',
 })
-export class LoanPrincipleOverdueFeeSummaryComponent {
+export class LoanPrincipalOverdueFeeSummaryComponent {
     src!: Blob;
     fileName: string;
 

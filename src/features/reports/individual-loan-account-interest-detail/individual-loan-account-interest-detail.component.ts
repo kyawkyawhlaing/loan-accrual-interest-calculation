@@ -57,7 +57,7 @@ export class IndividualLoanAccountInterestDetailComponent {
     onSubmit():void {
         this.http
             .post(
-                this.url + 'Report/GetIndividualLoanAccountInterestDetails', 
+                this.url + 'Report/GetIndividualLoanAccountInterestDetail', 
                 {
                     startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),

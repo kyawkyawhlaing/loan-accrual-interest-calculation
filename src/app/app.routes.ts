@@ -11,10 +11,10 @@ import { EodComponent } from '../features/background-services/eod/eod.component'
 import { AccountViewComponent } from '../features/account-view/account-view.component';
 import { IncomeAndSundryDetailsComponent } from '../features/reports/income-and-sundry-details/income-and-sundry-details.component';
 import { OverdueFeeIncomeAndSundryDetailsComponent } from '../features/reports/overdue-fee-income-and-sundry-details/overdue-fee-income-and-sundry-details.component';
-import { LoanPrincipleOverdueFeeSummaryComponent } from '../features/reports/loan-principle-overdue-fee-summary/loan-principle-overdue-fee-summary.component';
+import { LoanPrincipalOverdueFeeSummaryComponent } from '../features/reports/loan-principal-overdue-fee-summary/loan-principal-overdue-fee-summary.component';
 import { InterestSummaryComponent } from '../features/reports/interest-summary/interest-summary.component';
 import { InterestDetailComponent } from '../features/reports/interest-detail/interest-detail.component';
-import { LoanPrincipleOverdueFeeDetailComponent } from '../features/reports/loan-principle-overdue-fee-detail/loan-principle-overdue-fee-detail.component';
+import { LoanPrincipalOverdueFeeDetailComponent } from '../features/reports/loan-principal-overdue-fee-detail/loan-principal-overdue-fee-detail.component';
 import { IndividualLoanAccountInterestDetailComponent } from '../features/reports/individual-loan-account-interest-detail/individual-loan-account-interest-detail.component';
 
 
@@ -28,8 +28,8 @@ export const routes: Routes = [
         children: [
             { path: 'income-and-sundry-details', component: IncomeAndSundryDetailsComponent },
             { path: 'overdue-fee-income-and-sundry-details', component: OverdueFeeIncomeAndSundryDetailsComponent },
-            { path: 'loan-principle-overdue-fee-summary', component: LoanPrincipleOverdueFeeSummaryComponent},
-            { path: 'loan-principle-overdue-fee-detail', component: LoanPrincipleOverdueFeeDetailComponent},
+            { path: 'app-loan-principal-overdue-fee-summary', component: LoanPrincipalOverdueFeeSummaryComponent},
+            { path: 'loan-principal-overdue-fee-detail', component: LoanPrincipalOverdueFeeDetailComponent},
             { path: 'interest-summary', component: InterestSummaryComponent},
             { path: 'interest-detail', component: InterestDetailComponent},
             { path: 'individual-loan-account-interest-detail', component: IndividualLoanAccountInterestDetailComponent},
