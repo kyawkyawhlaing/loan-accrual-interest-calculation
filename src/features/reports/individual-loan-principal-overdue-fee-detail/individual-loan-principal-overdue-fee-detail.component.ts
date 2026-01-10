@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { saveAs } from 'file-saver';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
@@ -10,11 +10,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-individual-loan-account-interest-detail',
+  selector: 'app-individual-loan-principal-overdue-fee-detail',
   imports: [
       NgxExtendedPdfViewerModule,
       MatCardModule,
@@ -28,23 +28,23 @@ import { MatSelectModule } from '@angular/material/select';
       MatSelectModule
   ],
   providers: [ DatePipe ],
-  templateUrl: './individual-loan-account-interest-detail.component.html',
-  styleUrl: './individual-loan-account-interest-detail.component.scss',
+  templateUrl: './individual-loan-principal-overdue-fee-detail.component.html',
+  styleUrl: './individual-loan-principal-overdue-fee-detail.component.scss',
 })
-export class IndividualLoanAccountInterestDetailComponent {
+export class IndividualLoanPrincipalOverdueFeeDetailComponent {
     src!: Blob;
     fileName: string;
 
-    private url = environment.apiUrl;
+    protected readonly form: FormGroup = new FormGroup({});
+
+    private baseUrl = environment.apiUrl;
     private http = inject(HttpClient);
     private fb = inject(FormBuilder);
 
-    protected readonly form: FormGroup = new FormGroup({});
-
-    // select box
+    // select Box
     format = new FormControl('');
     formatList: string[] = ['PDF', 'EXCEL'];
-
+    
     constructor(private datePipe: DatePipe) {
         this.form = this.fb.group({
             startDate: ['', [Validators.required]],
@@ -53,17 +53,17 @@ export class IndividualLoanAccountInterestDetailComponent {
         });
     }
 
-    onSubmit():void {
+    onSubmit(): void {
         this.http
             .post(
-                this.url + 'Report/GetIndividualLoanAccountInterestDetail', 
+                this.baseUrl + 'Report/GetIndividualLoanPrincipalOverdueFeeDetail', 
                 {
                     startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
                     format: (this.form.value.format as string).toLowerCase(),
-                    reportFullName: 'Individual_Loan_Account_Interest_Details.jrxml'
+                    reportFullName: 'Individual_Loan_Principal_Overdue_Fee_Details.jrxml'
                 },
-                { observe: 'response', responseType: 'blob'}
+                { observe: 'response', responseType: 'blob' }
             )
             .subscribe({
                 next: (response) => {

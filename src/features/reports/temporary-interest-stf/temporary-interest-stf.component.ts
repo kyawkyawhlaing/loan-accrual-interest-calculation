@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { environment } from '../../../environments/environment.development';
-import { HttpClient } from '@angular/common/http';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { saveAs } from 'file-saver';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { MatCardModule } from '@angular/material/card';
@@ -14,7 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
-  selector: 'app-individual-loan-account-interest-detail',
+  selector: 'app-temporary-interest-stf',
   imports: [
       NgxExtendedPdfViewerModule,
       MatCardModule,
@@ -28,22 +28,21 @@ import { MatSelectModule } from '@angular/material/select';
       MatSelectModule
   ],
   providers: [ DatePipe ],
-  templateUrl: './individual-loan-account-interest-detail.component.html',
-  styleUrl: './individual-loan-account-interest-detail.component.scss',
+  templateUrl: './temporary-interest-stf.component.html',
+  styleUrl: './temporary-interest-stf.component.scss',
 })
-export class IndividualLoanAccountInterestDetailComponent {
+export class TemporaryInterestSTFComponent {
     src!: Blob;
     fileName: string;
+
+    protected readonly form: FormGroup = new FormGroup({});
 
     private url = environment.apiUrl;
     private http = inject(HttpClient);
     private fb = inject(FormBuilder);
 
-    protected readonly form: FormGroup = new FormGroup({});
-
-    // select box
     format = new FormControl('');
-    formatList: string[] = ['PDF', 'EXCEL'];
+    formatList: string[] = ['PDF', 'EXCEL']; 
 
     constructor(private datePipe: DatePipe) {
         this.form = this.fb.group({
@@ -53,17 +52,17 @@ export class IndividualLoanAccountInterestDetailComponent {
         });
     }
 
-    onSubmit():void {
+    onSubmit(): void {
         this.http
             .post(
-                this.url + 'Report/GetIndividualLoanAccountInterestDetail', 
+                this.url + 'Report/GetTemporaryInterestForSTF', 
                 {
                     startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
                     format: (this.form.value.format as string).toLowerCase(),
-                    reportFullName: 'Individual_Loan_Account_Interest_Details.jrxml'
+                    reportFullName: '3901-0077.jrxml'
                 },
-                { observe: 'response', responseType: 'blob'}
+                { observe: 'response', responseType: 'blob' }
             )
             .subscribe({
                 next: (response) => {

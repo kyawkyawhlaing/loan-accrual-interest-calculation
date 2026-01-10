@@ -16,16 +16,16 @@ import { MatSelectModule } from '@angular/material/select';
 @Component({
   selector: 'app-interest-detail',
   imports: [
-      NgxExtendedPdfViewerModule,
-      MatCardModule,
-      FormsModule,
-      ReactiveFormsModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatDatepickerModule,
-      MatNativeDateModule,
-      MatButtonModule,
-      MatSelectModule
+        NgxExtendedPdfViewerModule,
+        MatCardModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatButtonModule,
+        MatSelectModule
   ],
   providers: [DatePipe],
   templateUrl: './interest-detail.component.html',
