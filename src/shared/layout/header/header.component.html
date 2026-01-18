@@ -23,52 +23,7 @@
             <span class="title fw-medium d-block"> Business Date: {{ businessDate | date:'fullDate':'+0630' }}</span>
         </div>
         <ul class="header-right-side d-flex align-items-center mt-0 mb-0 pl-0 list-unstyled">
-            <li>
-                <button mat-icon-button [matMenuTriggerFor]="languageMenu" class="language-menu-btn">
-                    <i class="material-symbols-outlined">
-                        translate
-                    </i>
-                </button>
-                <mat-menu class="language-menu-dropdown" #languageMenu="matMenu" xPosition="before">
-                    <div
-                        [class.dark-menu]="themeService.isDark() || themeService.isHeaderDark()"
-                    >
-                        <span class="title fw-medium d-block">Choose Language</span>
-                        <ul class="menu-body pl-0 mb-0 mt-0 list-unstyled">
-                            <li>
-                                <button mat-button>
-                                    <img src="assets/images/flags/usa.png" alt="flag">
-                                    English
-                                </button>
-                            </li>
-                            <li>
-                                <button mat-button>
-                                    <img src="assets/images/flags/australia.png" alt="flag">
-                                    Australian
-                                </button>
-                            </li>
-                            <li>
-                                <button mat-button>
-                                    <img src="assets/images/flags/spain.png" alt="flag">
-                                    Spanish
-                                </button>
-                            </li>
-                            <li>
-                                <button mat-button>
-                                    <img src="assets/images/flags/france.png" alt="flag">
-                                    French
-                                </button>
-                            </li>
-                            <li>
-                                <button mat-button>
-                                    <img src="assets/images/flags/germany.png" alt="flag">
-                                    German
-                                </button>
-                            </li>
-                        </ul>
-                    </div>
-                </mat-menu>
-            </li>
+
             <li>
                 <button
                     mat-button
