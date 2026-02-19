@@ -18,6 +18,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 import { environment } from '../../../environments/environment.development';
 import { MatSelectModule } from '@angular/material/select';
 import { saveAs } from 'file-saver';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-income-and-sundry-details',
@@ -33,8 +34,9 @@ import { saveAs } from 'file-saver';
         MatButtonModule,
         MatSelectModule
     ],
-    templateUrl: 'income-and-sundry-details.component.html',
-    styleUrl: 'income-and-sundry-details.component.scss',
+    providers: [ DatePipe ],
+    templateUrl: './income-and-sundry-details.component.html',
+    styleUrl: './income-and-sundry-details.component.scss',
 })
 export class IncomeAndSundryDetailsComponent {
     src!: Blob;
@@ -50,7 +52,7 @@ export class IncomeAndSundryDetailsComponent {
     format = new FormControl('');
     formatList: string[] = ['PDF', 'EXCEL'];
 
-    constructor() {
+    constructor(private datePipe: DatePipe) {
         this.form = this.fb.group({
             startDate: ['', [Validators.required]],
             endDate: ['', [Validators.required]],
@@ -63,13 +65,10 @@ export class IncomeAndSundryDetailsComponent {
             .post(
                 this.baseUrl + 'Report/GetLoanAccountIncomeAndSundryDetails',
                 {
-                    startDate: (
-                        this.form.value.startDate as Date
-                    ).toISOString(),
-                    endDate: (this.form.value.endDate as Date).toISOString(),
+                    startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
+                    endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
                     format: (this.form.value.format as string).toLowerCase(),
-                    reportFullName:
-                        'Loan_Account_Income_and_Sundry_Details.jrxml',
+                    reportFullName: 'Loan_Account_Income_and_Sundry_Details.jrxml',
                 },
                 { observe: 'response', responseType: 'blob' }
             )
