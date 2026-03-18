@@ -18,6 +18,7 @@ import { EodService } from "./eod.service";
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { formatDate } from "@angular/common";
 import { UtilsService } from "../../../core/services/utils.service";
+import { HeaderService } from "../../../shared/layout/header/header.service";
 
 
 @Component({
@@ -45,6 +46,7 @@ export class EodComponent {
     private fb = inject(FormBuilder);
     private snackBar = inject(MatSnackBar);
     private utilsService = inject(UtilsService);
+    private headerService = inject(HeaderService);
 
     protected eodService = inject(EodService);
     protected form: FormGroup = new FormGroup({});
@@ -89,15 +91,19 @@ export class EodComponent {
     }
 
     onSubmit() {
+        const eodDate = this.form.value.eodDate as Date;
+
         this.eodService.isLoading.set(true);
         this.eodService
             .processEod({
                 ...this.form.value,
-                eodDate: this.utilsService.toUtcDate(this.form.value.eodDate as Date),
+                eodDate: this.utilsService.toUtcDate(eodDate),
             })
             .subscribe({
                 next: () => {
                     this.eodService.isLoading.set(false);
+                    this.headerService.setBusinessDate(eodDate);
+                    this.headerService.getBusinessDate().subscribe();
                     this.snackBar.openFromComponent(CustomSnackbarComponent, {
                         data: {
                             message: 'EOD has proceed successfully!',

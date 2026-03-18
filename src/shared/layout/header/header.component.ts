@@ -9,12 +9,11 @@ import { HeaderService } from './header.service';
 
 @Component({
     selector: 'app-header',
-    imports: [NgClass, MatMenuModule, MatButtonModule, RouterLink, DatePipe],
+    imports: [NgClass, MatMenuModule, MatButtonModule, RouterLink, DatePipe, AsyncPipe],
     templateUrl: './header.component.html',
     styleUrl: './header.component.scss'
 })
 export class HeaderComponent {
-    businessDate: Date | null = null;
 
     // isSidebarToggled
     isSidebarToggled = false;
@@ -34,9 +33,7 @@ export class HeaderComponent {
             this.isToggled = isToggled;
         });
 
-        this.headerService.getBusinessDate().subscribe((data) => {
-            this.businessDate = new Date(data.businessDate);
-        });
+        this.headerService.getBusinessDate().subscribe();
     }
 
     // Burger Menu Toggle
