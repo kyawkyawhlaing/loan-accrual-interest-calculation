@@ -63,7 +63,7 @@ export class LoanPrincipalOverdueFeeDetailComponent {
     onSubmit(): void {
         this.http
             .post(
-                this.url + 'Report/GetLoanPrincipalOverdueFeeDetail',
+                this.url + 'reports',
                 {
                     startDate: this.datePipe.transform(
                         this.form.value.startDate as Date,

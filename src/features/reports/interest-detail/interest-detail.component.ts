@@ -40,7 +40,7 @@ export class InterestDetailComponent {
     private baseUrl = environment.apiUrl;
     private fb = inject(FormBuilder);
     private http = inject(HttpClient);
-    
+
     // select box
     format = new FormControl('');
     formatList: string[] = ['PDF', 'EXCEL'];
@@ -56,7 +56,7 @@ export class InterestDetailComponent {
     onSubmit(): void {
         this.http
             .post(
-                this.baseUrl + 'Report/GetLoanInterestDetail',
+                this.baseUrl + 'reports',
                 {
                     startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),

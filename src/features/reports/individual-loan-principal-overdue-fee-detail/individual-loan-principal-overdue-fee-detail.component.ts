@@ -44,7 +44,7 @@ export class IndividualLoanPrincipalOverdueFeeDetailComponent {
     // select Box
     format = new FormControl('');
     formatList: string[] = ['PDF', 'EXCEL'];
-    
+
     constructor(private datePipe: DatePipe) {
         this.form = this.fb.group({
             startDate: ['', [Validators.required]],
@@ -56,7 +56,7 @@ export class IndividualLoanPrincipalOverdueFeeDetailComponent {
     onSubmit(): void {
         this.http
             .post(
-                this.baseUrl + 'Report/GetIndividualLoanPrincipalOverdueFeeDetail', 
+                this.baseUrl + 'reports',
                 {
                     startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),

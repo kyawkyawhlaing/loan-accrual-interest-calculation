@@ -42,7 +42,7 @@ export class TemporaryInterestSTFComponent {
     private fb = inject(FormBuilder);
 
     format = new FormControl('');
-    formatList: string[] = ['PDF', 'EXCEL']; 
+    formatList: string[] = ['PDF', 'EXCEL'];
 
     constructor(private datePipe: DatePipe) {
         this.form = this.fb.group({
@@ -55,7 +55,7 @@ export class TemporaryInterestSTFComponent {
     onSubmit(): void {
         this.http
             .post(
-                this.url + 'Report/GetTemporaryInterestForSTF', 
+                this.url + 'reports',
                 {
                     startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),

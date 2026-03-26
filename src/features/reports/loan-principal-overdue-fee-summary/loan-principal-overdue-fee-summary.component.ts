@@ -63,7 +63,7 @@ export class LoanPrincipalOverdueFeeSummaryComponent {
     onSubmit(): void {
         this.http
         .post(
-            this.baseUrl + 'Report/GetLoanPrincipalOverdueFeeSummary',
+            this.baseUrl + 'reports',
             {
                 startDate: this.datePipe.transform(
                     this.form.value.startDate as Date,
@@ -88,7 +88,7 @@ export class LoanPrincipalOverdueFeeSummaryComponent {
                     this.src = blob;
                 }
                 if (this.form.value.format.toLowerCase() === 'excel') {
-                    const blob = new File([response.body!], this.fileName, {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });   
+                    const blob = new File([response.body!], this.fileName, {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
                     saveAs(blob, this.fileName);
                 }
                 this.form.reset(this.form.value);

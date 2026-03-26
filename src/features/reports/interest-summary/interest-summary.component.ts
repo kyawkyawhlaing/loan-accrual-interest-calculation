@@ -63,7 +63,7 @@ export class InterestSummaryComponent {
     onSubmit(): void {
         this.http
             .post(
-                this.baseUrl + 'Report/GetLoanAccountInterestSummary',
+                this.baseUrl + 'reports',
                 {
                     startDate: this.datePipe.transform(
                         this.form.value.startDate as Date,

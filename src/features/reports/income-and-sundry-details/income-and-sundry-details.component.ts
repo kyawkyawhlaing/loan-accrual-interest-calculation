@@ -63,7 +63,7 @@ export class IncomeAndSundryDetailsComponent {
     onSubmit(): void {
         this.http
             .post(
-                this.baseUrl + 'Report/GetLoanAccountIncomeAndSundryDetails',
+                this.baseUrl + 'reports',
                 {
                     startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),

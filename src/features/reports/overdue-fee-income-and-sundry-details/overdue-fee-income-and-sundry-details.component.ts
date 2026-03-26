@@ -47,7 +47,7 @@ export class OverdueFeeIncomeAndSundryDetailsComponent {
 
     constructor(private datePipe: DatePipe) {
         this.form = this.fb.group({
-            startDate: ['', [Validators.required]], 
+            startDate: ['', [Validators.required]],
             endDate: ['', [Validators.required]],
             format: ['', Validators.required]
         });
@@ -56,7 +56,7 @@ export class OverdueFeeIncomeAndSundryDetailsComponent {
     onSubmit(): void {
         this.http
             .post(
-                this.baseUrl + 'Report/GetLoanPrincipalOverdueFeeIncomeAndSundryDetail',
+                this.baseUrl + 'reports',
                 {
                     startDate: this.datePipe.transform(
                         this.form.value.startDate as Date, 'yyyy-MM-dd'
@@ -72,13 +72,13 @@ export class OverdueFeeIncomeAndSundryDetailsComponent {
             .subscribe({
                 next: (response) => {
                     this.fileName = response.headers.get('content-disposition')?.split('filename=')[1]?.trim().replace(/"/g, '') || 'unknown';
-                    
+
                     if (this.form.value.format.toLowerCase() === 'pdf') {
                         const blob = new File([response.body!], this.fileName, {type: 'application/pdf' });
                         this.src = blob;
                     }
                     if (this.form.value.format.toLowerCase() === 'excel') {
-                        const blob = new File([response.body!], this.fileName, {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });   
+                        const blob = new File([response.body!], this.fileName, {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
                         saveAs(blob, this.fileName);
                     }
                     this.form.reset(this.form.value);
