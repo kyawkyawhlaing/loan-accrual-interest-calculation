@@ -10,11 +10,11 @@ export class HeaderService {
     private businessDateSubject = new BehaviorSubject<Date | null>(null);
 
     businessDate$ = this.businessDateSubject.asObservable();
-    
+
     getBusinessDate() {
         const params = new HttpParams().set('_', Date.now());
 
-        return this.http.get<BusinessDateResponse>(this.baseUrl + 'systemBusinessDates', { params }).pipe(
+        return this.http.get<BusinessDateResponse>(this.baseUrl + 'business-date', { params }).pipe(
             map((data) => ({
                 ...data,
                 businessDate: new Date(data.businessDate),

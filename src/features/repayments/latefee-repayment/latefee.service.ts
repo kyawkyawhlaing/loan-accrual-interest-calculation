@@ -9,10 +9,22 @@ export class LatefeeService {
     private http = inject(HttpClient);
 
     createRepaymentVoucher(voucher: Repayment) {
-        return this.http.post<string>(this.baseUrl + 'penaltyRepayment/create', voucher);
+        var apiPath = "";
+
+        if (voucher.productCode.toLowerCase() == 'dcf') apiPath = this.baseUrl + 'latefee/dcf/repayment';
+
+        if (voucher.productCode.toLowerCase() == 'fcf') apiPath = this.baseUrl + 'latefee/fcf/repayment';
+
+        if (voucher.productCode.toLowerCase() == 'inf') apiPath = this.baseUrl + 'latefee/inf/repayment';
+
+        if (voucher.productCode.toLowerCase() == 'pef') apiPath = this.baseUrl + 'latefee/pef/repayment';
+
+        if (voucher.productCode.toLowerCase() == 'stf') apiPath = this.baseUrl + 'latefee/stf/repayment';
+
+        return this.http.post<string>(apiPath, voucher);
     }
 
     getLoanByAccountNumber(loanAcctNumber: string) {
-        return this.http.get<any>(this.baseUrl + 'principalRepayment/' + loanAcctNumber);
+        return this.http.get<any>(this.baseUrl + 'loan-accounts/' + loanAcctNumber);
     }
 }

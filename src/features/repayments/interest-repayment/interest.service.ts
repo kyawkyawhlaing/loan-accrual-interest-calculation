@@ -9,10 +9,22 @@ export class InterestService {
     private http = inject(HttpClient);
 
     createRepaymentVoucher(voucher: Repayment) {
-        return this.http.post<string>(this.baseUrl + 'interestRepayment/create', voucher);
+        var apiPath = "";
+
+        if (voucher.productCode.toLowerCase() == 'dcf') apiPath = this.baseUrl + 'interest/dcf/repayment';
+
+        if (voucher.productCode.toLowerCase() == 'fcf') apiPath = this.baseUrl + 'interest/fcf/repayment';
+
+        if (voucher.productCode.toLowerCase() == 'inf') apiPath = this.baseUrl + 'interest/inf/repayment';
+
+        if (voucher.productCode.toLowerCase() == 'pef') apiPath = this.baseUrl + 'interest/pef/repayment';
+
+        if (voucher.productCode.toLowerCase() == 'stf') apiPath = this.baseUrl + 'interest/stf/repayment';
+
+        return this.http.post<string>(apiPath, voucher);
     }
 
     getLoanByAccountNumber(loanAcctNumber: string) {
-        return this.http.get<any>(this.baseUrl + 'principalRepayment/' + loanAcctNumber);
+        return this.http.get<any>(this.baseUrl + 'loan-accounts/' + loanAcctNumber);
     }
 }

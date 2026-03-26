@@ -4,8 +4,8 @@ export type LoanAccount = {
     loanAcctName: string;
     outsPrinAmt: number;
     ccy: string;
-    ttlAccIntAmt: number;
-    ttlAccPenalAmt: number;
+    ttlAccrIntAmt: number;
+    ttlAccrPenalAmt: number;
     intRate: number;
     penalRate: number;
 }

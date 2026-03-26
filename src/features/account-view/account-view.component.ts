@@ -19,7 +19,7 @@ import { LoanAccount, LoanAccountParams } from '../../shared/types/loan-account'
     styleUrl: 'account-view.component.scss',
 })
 export class AccountViewComponent {
-    displayedColumns: string[] = ['id', 'loanAcctNum', 'loanAcctName', 'outsPrinAmt', 'ttlAccIntAmt', 'ttlAccPenalAmt', 'intRate', 'penalRate'];
+    displayedColumns: string[] = ['id', 'loanAcctNum', 'loanAcctName', 'outsPrinAmt', 'ttlAccrIntAmt', 'ttlAccrPenalAmt', 'intRate', 'penalRate'];
     dataSource = new MatTableDataSource<LoanAccount>();
 
     private  destroyRef = inject(DestroyRef);

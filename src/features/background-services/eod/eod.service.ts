@@ -16,6 +16,6 @@ export class EodService {
 
 
     processEod(eodDate: EodDate) {
-        return this.http.post<any>(this.baseUrl + 'DailyAccrual/daily-accrual-job/', eodDate);
+        return this.http.post<any>(this.baseUrl + 'api/eods/process', eodDate);
     }
 }

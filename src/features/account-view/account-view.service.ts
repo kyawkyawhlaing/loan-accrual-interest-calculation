@@ -16,6 +16,6 @@ export class AccountViewService {
         params = params.append('pageSize', loanAccountParams.pageSize);
         params = params.append('searchTerms', loanAccountParams.searchTerms || '');
 
-        return this.http.get<PaginatedResult<LoanAccount>>(this.baseUrl + 'loanAccounts/accounts', {params});
+        return this.http.get<PaginatedResult<LoanAccount>>(this.baseUrl + 'loan-accounts', {params});
     }
 }
