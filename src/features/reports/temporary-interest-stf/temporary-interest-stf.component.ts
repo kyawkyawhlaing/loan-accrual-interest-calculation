@@ -60,7 +60,8 @@ export class TemporaryInterestSTFComponent {
                     startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
                     format: (this.form.value.format as string).toLowerCase(),
-                    reportFullName: '3901-0077.jrxml'
+                    reportFullName: '3901-0077.jrxml',
+                    outputFileName: '2100-0055 Temporary Interest For STF',
                 },
                 { observe: 'response', responseType: 'blob' }
             )

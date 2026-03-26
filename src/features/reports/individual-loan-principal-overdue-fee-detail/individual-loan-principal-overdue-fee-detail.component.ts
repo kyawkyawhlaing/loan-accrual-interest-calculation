@@ -61,7 +61,8 @@ export class IndividualLoanPrincipalOverdueFeeDetailComponent {
                     startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
                     format: (this.form.value.format as string).toLowerCase(),
-                    reportFullName: 'Individual_Loan_Principal_Overdue_Fee_Details.jrxml'
+                    reportFullName: 'Individual_Loan_Principal_Overdue_Fee_Details.jrxml',
+                    outputFileName: 'Individual Loan Principal Overdue Fee Details',
                 },
                 { observe: 'response', responseType: 'blob' }
             )

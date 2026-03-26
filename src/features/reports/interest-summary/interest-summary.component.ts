@@ -75,6 +75,7 @@ export class InterestSummaryComponent {
                     ),
                     format: (this.form.value.format as string).toLowerCase(),
                     reportFullName: 'Loan_Account_Interest_Summary.jrxml',
+                    outputFileName: 'Loan Account Interest Summary',
                 },
                 { observe: 'response', responseType: 'blob' }
             )

@@ -61,7 +61,8 @@ export class IndividualLoanAccountInterestDetailComponent {
                     startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
                     format: (this.form.value.format as string).toLowerCase(),
-                    reportFullName: 'Individual_Loan_Account_Interest_Details.jrxml'
+                    reportFullName: 'Individual_Loan_Account_Interest_Details.jrxml',
+                    outputFileName: 'Individual Loan Account Interest Details',
                 },
                 { observe: 'response', responseType: 'blob'}
             )

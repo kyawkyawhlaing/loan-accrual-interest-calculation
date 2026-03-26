@@ -60,7 +60,8 @@ export class AccruedInterestReceivableSTFComponent {
                     startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
                     format: (this.form.value.format as string).toLowerCase(),
-                    reportFullName: '2100-0055.jrxml'
+                    reportFullName: '2100-0055.jrxml',
+                    outputFileName: '2100-0055 Accrued Interest Receivable For STF',
                 },
                 { observe: 'response', responseType: 'blob' }
             )

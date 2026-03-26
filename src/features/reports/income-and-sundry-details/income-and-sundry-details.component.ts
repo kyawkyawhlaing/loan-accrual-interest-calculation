@@ -69,6 +69,7 @@ export class IncomeAndSundryDetailsComponent {
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
                     format: (this.form.value.format as string).toLowerCase(),
                     reportFullName: 'Loan_Account_Income_and_Sundry_Details.jrxml',
+                    outputFileName: 'Income & Sundry Details'
                 },
                 { observe: 'response', responseType: 'blob' }
             )

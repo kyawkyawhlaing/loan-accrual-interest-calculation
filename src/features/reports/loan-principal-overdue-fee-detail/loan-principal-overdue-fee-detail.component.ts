@@ -75,6 +75,7 @@ export class LoanPrincipalOverdueFeeDetailComponent {
                     ),
                     format: (this.form.value.format as string).toLowerCase(),
                     reportFullName: 'Loan_Principal_Overdue_Fee_Details.jrxml',
+                    outputFileName: 'Loan Principal Overdue Fee Detail',
                 },
                 { observe: 'response', responseType: 'blob' }
             )

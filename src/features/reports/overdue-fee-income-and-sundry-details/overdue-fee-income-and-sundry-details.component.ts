@@ -65,6 +65,7 @@ export class OverdueFeeIncomeAndSundryDetailsComponent {
                     format: (this.form.value.format as string).toLowerCase(),
                     reportFullName:
                         'Loan_Principal_Overdue_Fee_Income_And_Sundry_Details.jrxml',
+                    outputFileName: 'Loan Principal Overdue Fee Income and Sundry Details',
                 },
                 { observe: 'response', responseType: 'blob' }
             )
