@@ -20,7 +20,7 @@
                     <span class="sub-title text-body">
                         LISTS
                     </span>
-                    
+
                     <a routerLink="/account-view" class="sidebar-menu-link" routerLinkActive="active"
                         [routerLinkActiveOptions]="{exact: true}">
                         <i class="material-symbols-outlined">
@@ -161,27 +161,28 @@
                         </ul>
                     </mat-expansion-panel>
 
-                    <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>
-                                <i class="material-symbols-outlined">
-                                    timelapse
-                                </i>
-                                <span class="title">
-                                    Backgound Services
-                                </span>
-                            </mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <ul class="sidebar-sub-menu">
-                            <li class="sidemenu-item">
-                                <a routerLink="/background-services/eod/process-eod" routerLinkActive="active"
-                                    [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
-                                    EOD
-                                </a>
-                            </li>
-                        </ul>
-                    </mat-expansion-panel>
-
+                    @if (accountService.username().startsWith('IT')) {
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <i class="material-symbols-outlined">
+                                        timelapse
+                                    </i>
+                                    <span class="title">
+                                        Backgound Services
+                                    </span>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <ul class="sidebar-sub-menu">
+                                <li class="sidemenu-item">
+                                    <a routerLink="/background-services/eod/process-eod" routerLinkActive="active"
+                                        [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                        EOD
+                                    </a>
+                                </li>
+                            </ul>
+                        </mat-expansion-panel>
+                    }
                     <a routerLink="/authentication/logout" class="sidebar-menu-link" routerLinkActive="active"
                         [routerLinkActiveOptions]="{exact: true}">
                         <i class="material-symbols-outlined">

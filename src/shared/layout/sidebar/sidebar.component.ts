@@ -5,6 +5,7 @@ import { RouterLink, RouterLinkActive, RouterModule } from '@angular/router';
 import { ToggleService } from './toggle.service';
 import { NgClass } from '@angular/common';
 import { CustomizerSettingsService } from '../../../core/customizer-settings/customizer-settings.service';
+import { AccountService } from '../../../core/services/account.service';
 
 
 @Component({
@@ -23,7 +24,8 @@ export class SidebarComponent {
 
     constructor(
         private toggleService: ToggleService,
-        public themeService: CustomizerSettingsService
+        public themeService: CustomizerSettingsService,
+        public accountService: AccountService
     ) {
         this.toggleService.isSidebarToggled$.subscribe(isSidebarToggled => {
             this.isSidebarToggled = isSidebarToggled;
