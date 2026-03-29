@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CustomizerSettingsService } from '../../../core/customizer-settings/customizer-settings.service';
 import { HeaderService } from './header.service';
+import { AccountService } from '../../../core/services/account.service';
 
 @Component({
     selector: 'app-header',
@@ -24,7 +25,8 @@ export class HeaderComponent {
     constructor(
         private toggleService: ToggleService,
         public themeService: CustomizerSettingsService,
-        public headerService: HeaderService
+        public headerService: HeaderService,
+        public accountService: AccountService
     ) {
         this.toggleService.isSidebarToggled$.subscribe(isSidebarToggled => {
             this.isSidebarToggled = isSidebarToggled;

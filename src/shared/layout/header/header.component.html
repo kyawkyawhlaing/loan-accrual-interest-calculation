@@ -49,10 +49,10 @@
                             <img src="assets/images/admin.png" alt="profile-image">
                             <div class="title">
                                 <a routerLink="/my-profile" class="d-inline-block fw-medium">
-                                    Mateo Luca
+                                    {{ accountService.username() || 'User' }}
                                 </a>
                                 <span class="designation d-block text-body">
-                                    Admin
+                                    {{ accountService.role() || 'N/A' }}
                                 </span>
                             </div>
                         </div>
