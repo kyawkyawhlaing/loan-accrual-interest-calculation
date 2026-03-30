@@ -67,7 +67,21 @@ export class AccruedInterestReceivableSTFComponent {
             )
             .subscribe({
                 next: (response) => {
-                    this.fileName = response.headers.get('content-disposition')?.split('filename=')[1]?.trim().replace(/"/g, '') || 'unknown';
+                    const contentDisposition = response.headers.get('content-disposition') || '';
+
+                    let fileName = 'unknown';
+
+                    const utf8Match = contentDisposition.match(/filename\*\=UTF-8''([^;]+)/);
+                    if (utf8Match && utf8Match[1]) {
+                        fileName = decodeURIComponent(utf8Match[1]);
+                    } else {
+                        const asciiMatch = contentDisposition.match(/filename=\"?([^\";]+)\"?/);
+                        if (asciiMatch && asciiMatch[1]) {
+                            fileName = asciiMatch[1];
+                        }
+                    }
+
+                    this.fileName = fileName;
 
                     if (this.form.value.format.toLowerCase() === 'pdf') {
                         const blob = new File([response.body!], this.fileName, {
