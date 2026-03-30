@@ -90,6 +90,7 @@ export class TemporaryInterestSTFComponent {
                         this.src = blob;
                     }
                     if (this.form.value.format.toLowerCase() === 'excel') {
+                        this.fileName = this.fileName.replace('.excel', '.xlsx');
                         const blob = new File([response.body!], this.fileName, {
                             type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                         });
