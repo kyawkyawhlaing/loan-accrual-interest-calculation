@@ -4,11 +4,12 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { errorInterceptor } from '../core/interceptors/error.interceptor';
 import { loadingInterceptor } from '../core/interceptors/loading.interceptor';
 import { firstValueFrom } from 'rxjs';
 import { InitService } from '../core/services/init.service';
+import { credentialsInterceptor } from '../core/interceptors/credentials.interceptor';
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -16,7 +17,11 @@ export const appConfig: ApplicationConfig = {
         provideRouter(routes),
         provideClientHydration(),
         provideAnimations(),
-        provideHttpClient(withInterceptors([errorInterceptor, loadingInterceptor])),
+        provideHttpClient(withInterceptors([
+            errorInterceptor,
+            loadingInterceptor,
+            credentialsInterceptor
+        ])),
         provideAppInitializer(() => firstValueFrom(inject(InitService).init()))
     ],
 };

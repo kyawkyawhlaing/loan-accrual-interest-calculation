@@ -40,7 +40,7 @@
                     "builder": "@angular/build:application",
                     "options": {
                         "outputPath": {
-                            "base": "/dist",
+                            "base": "C:/Users/KAYW LATT/Desktop/CurrentWorkspace/MFTB Interest Calculation System/INTCS/Api/wwwroot",
                             "browser": ""
                         },
                         "index": "src/index.html",
