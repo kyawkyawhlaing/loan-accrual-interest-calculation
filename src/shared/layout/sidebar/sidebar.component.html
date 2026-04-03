@@ -161,7 +161,7 @@
                         </ul>
                     </mat-expansion-panel>
 
-                    @if (accountService.username().startsWith('IT')) {
+                    @if (accountService.username().startsWith('IT') || accountService.username().includes('SIGMA8')) {
                         <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
