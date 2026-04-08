@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { errorInterceptor } from '../core/interceptors/error.interceptor';
 import { loadingInterceptor } from '../core/interceptors/loading.interceptor';
 import { firstValueFrom } from 'rxjs';
@@ -18,9 +18,9 @@ export const appConfig: ApplicationConfig = {
         provideClientHydration(),
         provideAnimations(),
         provideHttpClient(withInterceptors([
-            errorInterceptor,
             loadingInterceptor,
-            credentialsInterceptor
+            credentialsInterceptor,
+            errorInterceptor,
         ])),
         provideAppInitializer(() => firstValueFrom(inject(InitService).init()))
     ],

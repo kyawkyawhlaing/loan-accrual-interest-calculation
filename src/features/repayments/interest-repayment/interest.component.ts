@@ -52,7 +52,7 @@ export class InterestComponent {
     protected form: FormGroup = new FormGroup({});
 
     isReadonly = false;
-    
+
     // Text Editor
     editor: Editor;
     toolbar: Toolbar = [
@@ -118,7 +118,7 @@ export class InterestComponent {
                     this.form.markAsUntouched();
                     this.snackBar.openFromComponent(CustomSnackbarComponent, {
                         data: {
-                            message: 'Principal voucher is saved successfully!',
+                            message: 'Interest voucher is saved successfully!',
                         },
                         verticalPosition: 'top',
                         horizontalPosition: 'center',
@@ -126,12 +126,7 @@ export class InterestComponent {
                     });
                 },
                 error: (error) => {
-                    this.snackBar.openFromComponent(CustomSnackbarComponent, {
-                        data: { message: error.error.message },
-                        verticalPosition: 'top',
-                        horizontalPosition: 'center',
-                        panelClass: ['snackbar-error'],
-                    });
+                    console.log(error);
                 },
             });
     }

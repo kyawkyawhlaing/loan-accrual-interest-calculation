@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { HttpInterceptorFn } from '@angular/common/http';
 
-import { catchError } from 'rxjs';
+import { catchError, throwError } from 'rxjs';
 
 import { NavigationExtras, Router } from '@angular/router';
 import { ToastService } from '../services/toast.service';
@@ -18,22 +18,14 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       if (error) {
           switch(error.status) {
             case 400:
-              if (error.error.errors) {
-                const modelStateErrors = [];
-                for (const key in error.error.errors) {
-                  if (error.error.errors[key]) {
-                    modelStateErrors.push(error.error.errors[key])
-                  }
-                }
-                throw modelStateErrors.flat()
-              } else {
+                const message = error.error.detail;
                 snackBar.openFromComponent(CustomSnackbarComponent, {
-                    data: { message: error.error, type: 'error' },
+                    data: { message, type: 'error' },
                     verticalPosition: 'top',
                     horizontalPosition: 'center',
                     panelClass: [`snackbar-error`]
                 });
-              }
+
               break;
             case 401:
                 snackBar.openFromComponent(CustomSnackbarComponent, {
@@ -47,9 +39,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
               router.navigateByUrl('/not-found')
               break;
             case 500:
-                console.log(error)
                 snackBar.openFromComponent(CustomSnackbarComponent, {
-                    data: { message: error.error.message, type: 'error' },
+                    data: { message: error.error.detail, type: 'error' },
                     verticalPosition: 'top',
                     horizontalPosition: 'center',
                     panelClass: [`snackbar-error`]
@@ -63,7 +54,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
                 break;
           }
       }
-      throw error;
+      console.log('error second time', error)
+      return throwError(() => error);
     })
   );
 };

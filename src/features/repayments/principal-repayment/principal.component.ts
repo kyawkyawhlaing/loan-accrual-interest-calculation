@@ -123,13 +123,7 @@ export class PrincipalComponent {
                 });
             },
             error: (error) => {
-                this.form.get('productCode')?.enable();
-                this.snackBar.openFromComponent(CustomSnackbarComponent, {
-                    data: { message: error.error.message, type: 'error' },
-                    verticalPosition: 'top',
-                    horizontalPosition: 'center',
-                    panelClass: [`snackbar-error`]
-                });
+                console.log(error);
             }
         })
     }
