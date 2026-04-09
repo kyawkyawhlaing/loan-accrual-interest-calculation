@@ -21,15 +21,17 @@
                         LISTS
                     </span>
 
-                    <a routerLink="/account-view" class="sidebar-menu-link" routerLinkActive="active"
-                        [routerLinkActiveOptions]="{exact: true}">
-                        <i class="material-symbols-outlined">
-                            check_circle
-                        </i>
-                        <span class="title">
-                            Account View
-                        </span>
-                    </a>
+                    @if (!accountService.username().includes('MFTBEOD')) {
+                        <a routerLink="/account-view" class="sidebar-menu-link" routerLinkActive="active"
+                            [routerLinkActiveOptions]="{exact: true}">
+                            <i class="material-symbols-outlined">
+                                check_circle
+                            </i>
+                            <span class="title">
+                                Account View
+                            </span>
+                        </a>
+
 
                     <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
                         <mat-expansion-panel-header>
@@ -123,11 +125,12 @@
                             </li>
                         </ul>
                     </mat-expansion-panel>
-
+                    }
                     <span class="sub-title text-body">
                         PAGES
                     </span>
 
+                    @if (!accountService.username().includes('MFTBEOD')) {
                     <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
@@ -160,8 +163,12 @@
                             </li>
                         </ul>
                     </mat-expansion-panel>
+                    }
 
-                    @if (accountService.username().startsWith('IT') || accountService.username().includes('SIGMA8')) {
+                    @if (accountService.username().includes('ITAKZY')
+                        || accountService.username().includes('SIGMA8')
+                        || accountService.username().includes('ACEIDC1')
+                        || accountService.username().includes('MFTBEOD')) {
                         <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
@@ -183,8 +190,7 @@
                             </ul>
                         </mat-expansion-panel>
                     }
-                    <a routerLink="/api/logout" class="sidebar-menu-link" routerLinkActive="active"
-                        [routerLinkActiveOptions]="{exact: true}">
+                    <a (click)="onLogout()" class="sidebar-menu-link">
                         <i class="material-symbols-outlined">
                             logout
                         </i>

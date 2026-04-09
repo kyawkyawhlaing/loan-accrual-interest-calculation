@@ -14,21 +14,41 @@ export class ThousandSeparatorDirective {
 
         // Allow only numbers and one decimal point
         if (!/^\d*\.?\d*$/.test(value)) {
-        input.value = input.value.slice(0, -1);
-        return;
+            input.value = input.value.slice(0, -1);
+            return;
         }
 
-        // Split integer and decimal parts
-        const [integer, decimal] = value.split('.');
+        this.formatValue(value, false);
+    }
 
-        // Format integer part
-        const formattedInteger = integer
-        ? Number(integer).toLocaleString('en-US')
-        : '';
+    @HostListener('blur')
+    onBlur() {
+        const input = this.el.nativeElement;
+        const value = input.value.replace(/,/g, '');
 
-        // Rebuild value
-        input.value = decimal !== undefined
-        ? `${formattedInteger}.${decimal}`
-        : formattedInteger;
+        if (!value) {
+            return;
+        }
+
+        this.formatValue(value, true);
+    }
+
+    private formatValue(value: string, padDecimals: boolean) {
+        const [integerPart, decimalPart] = value.split('.');
+        const integer = integerPart || '0';
+        const formattedInteger = Number(integer).toLocaleString('en-US');
+
+        if (decimalPart !== undefined) {
+            const trimmedDecimal = decimalPart.slice(0, 2);
+            const paddedDecimal = padDecimals
+                ? trimmedDecimal.padEnd(2, '0')
+                : trimmedDecimal;
+            this.el.nativeElement.value = `${formattedInteger}.${paddedDecimal}`;
+            return;
+        }
+
+        this.el.nativeElement.value = padDecimals
+            ? `${formattedInteger}.00`
+            : formattedInteger;
     }
 }

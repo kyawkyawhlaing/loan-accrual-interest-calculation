@@ -11,15 +11,16 @@ import { CustomizerSettingsService } from '../../core/customizer-settings/custom
 
 import { AccountViewService } from './account-view.service';
 import { LoanAccount, LoanAccountParams } from '../../shared/types/loan-account';
+import { DecimalPipe } from '@angular/common';
 
 @Component({
     selector: 'app-account-view',
-    imports: [MatCardModule, MatMenuModule, MatButtonModule, MatTableModule, MatPaginatorModule, MatProgressBarModule, MatTooltipModule],
+    imports: [DecimalPipe,MatCardModule, MatMenuModule, MatButtonModule, MatTableModule, MatPaginatorModule, MatProgressBarModule, MatTooltipModule],
     templateUrl: 'account-view.component.html',
     styleUrl: 'account-view.component.scss',
 })
 export class AccountViewComponent {
-    displayedColumns: string[] = ['id', 'loanAcctNum', 'loanAcctName', 'outsPrinAmt', 'ttlAccrIntAmt', 'ttlAccrPenalAmt', 'intRate', 'penalRate'];
+    displayedColumns: string[] = ['id', 'loanAcctNum', 'loanAcctName', 'productCode', 'outsPrinAmt', 'ttlAccrIntAmt', 'ttlAccrPenalAmt', 'intRate', 'penalRate'];
     dataSource = new MatTableDataSource<LoanAccount>();
 
     private  destroyRef = inject(DestroyRef);

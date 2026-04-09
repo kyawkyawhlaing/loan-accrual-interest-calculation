@@ -1,8 +1,9 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, DestroyRef, ViewChild, inject } from '@angular/core';
 import {
     FormBuilder,
     FormControl,
     FormGroup,
+    FormGroupDirective,
     FormsModule,
     ReactiveFormsModule,
     Validators,
@@ -17,6 +18,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterLink } from '@angular/router';
 import { FileUploadModule } from '@iplab/ngx-file-upload';
+import { catchError, of } from 'rxjs';
+import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { CustomizerSettingsService } from '../../../core/customizer-settings/customizer-settings.service';
 import { ThousandSeparatorDirective } from '../../../shared/directives/thousand-separator.directive';
@@ -49,6 +52,8 @@ import { UppercaseDirective } from '../../../shared/directives/uppercase.directi
     styleUrl: 'latefee.component.scss',
 })
 export class LatefeeComponent {
+    @ViewChild(FormGroupDirective) private formGroupDirective?: FormGroupDirective;
+
     private fb = inject(FormBuilder);
     private snackBar = inject(MatSnackBar);
     private voucherService = inject(LatefeeService);
@@ -104,24 +109,56 @@ export class LatefeeComponent {
             narrationDetails: [''],
         });
 
+        const loanAcctControl = this.form.get('loanAcctNum');
+        loanAcctControl?.valueChanges.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            switchMap((value: string) => {
+                if (!value) {
+                    this.clearLoanRelatedDetails();
+                    return of(null);
+                }
+
+                if (value.length < 6) {
+                    return of(null);
+                }
+
+                return this.voucherService.getLoanByAccountNumber(value).pipe(
+                    catchError(() => of(null))
+                );
+            })
+        ).subscribe((loan: any) => {
+            if (loan && loan.productCode && loan.ccy) {
+                this.form.patchValue({
+                    productCode: loan.productCode,
+                    ccy: loan.ccy,
+                });
+                this.form.get('productCode')?.disable();
+                this.isReadonly = true;
+                return;
+            }
+
+            if (this.form.get('loanAcctNum')?.value) {
+                this.clearLoanRelatedDetails();
+            }
+        });
+
         this.themeService.isToggled$.subscribe((isToggled) => {
             this.isToggled = isToggled;
         });
     }
 
     onSubmit() {
+        const voucher = this.form.getRawValue();
+
         this.voucherService
             .createRepaymentVoucher({
-                ...this.form.value,
-                paymentAmt: this.utilsService.parseAmount(
-                    this.form.value.paymentAmt
-                ),
+                ...voucher,
+                paymentAmt: this.utilsService.parseAmount(voucher.paymentAmt),
             })
             .subscribe({
                 next: (response) => {
-                    this.form.reset();
-                    this.form.markAsPristine();
-                    this.form.markAsUntouched();
+                    this.resetForm();
                     this.snackBar.openFromComponent(CustomSnackbarComponent, {
                         data: {
                             message: 'Latefee voucher is saved successfully!',
@@ -137,34 +174,52 @@ export class LatefeeComponent {
             });
     }
 
+    private resetForm() {
+        const resetState = {
+            loanAcctNum: '',
+            productCode: '',
+            paymentAmt: '',
+            ccy: '',
+            narrationDetails: '',
+        };
+
+        this.form.reset(resetState);
+        this.formGroupDirective?.resetForm(resetState);
+        this.form.get('productCode')?.enable();
+        this.isReadonly = false;
+    }
+
     onLoanAccountEnter() {
         const loanAcctNum = this.form.value?.loanAcctNum;
 
-        if (!loanAcctNum) return;
+        if (!loanAcctNum || loanAcctNum.length < 6) return;
 
         const subscription = this.voucherService.getLoanByAccountNumber(loanAcctNum)
-            .subscribe({
-                next: (loan) => {
-                    if (!loan) return;
-
+            .pipe(catchError(() => of(null)))
+            .subscribe((loan: any) => {
+                if (loan && loan.productCode && loan.ccy) {
                     this.form.patchValue({
                         productCode: loan.productCode,
-                        ccy: loan.ccy
+                        ccy: loan.ccy,
                     });
-
                     this.form.get('productCode')?.disable();
                     this.isReadonly = true;
-                },
-                error: () => {
-                    this.form.reset();
-                    this.form.markAsUntouched();
-
-                    this.isReadonly = true;
-
+                    return;
                 }
+
+                this.clearLoanRelatedDetails();
             });
 
         this.destroyRef.onDestroy(() => subscription.unsubscribe());
+    }
+
+    private clearLoanRelatedDetails() {
+        this.form.get('productCode')?.enable();
+        this.form.patchValue({
+            productCode: '',
+            ccy: '',
+        });
+        this.isReadonly = false;
     }
 
     // Dark Mode

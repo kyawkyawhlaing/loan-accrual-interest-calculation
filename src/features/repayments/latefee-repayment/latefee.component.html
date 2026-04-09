@@ -20,7 +20,7 @@
 </div>
 
 <!-- Create Late Fee -->
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" #latefeeForm="ngForm">
     <div class="row">
         <div class="col-xxl-12 col-xxxl-12">
             <mat-card class="daxa-card create-course-card mb-25 border-radius bg-white border-none d-block">
@@ -43,7 +43,7 @@
                                     <mat-label>
                                         Account Number
                                     </mat-label>
-                                    <input formControlName="loanAcctNum" appUppercase matInput placeholder="E.g. DCF-001" (keydown.enter)="onLoanAccountEnter()" >
+                                    <input formControlName="loanAcctNum" appUppercase matInput placeholder="E.g. DCF-001" (keydown.enter)="onLoanAccountEnter()" (blur)="onLoanAccountEnter()" >
                                 </mat-form-field>
                                 @if (loanAccountNumberIsRequired) {
                                 <div class="error text-danger">
@@ -90,7 +90,7 @@
                                     <mat-label>
                                         Enter Amount
                                     </mat-label>
-                                    <input formControlName="paymentAmt" matInput thousandSeparator placeholder="E.g. 100,000">
+                                    <input formControlName="paymentAmt" matInput thousandSeparator placeholder="E.g. 100,000" (keydown.enter)="$event.preventDefault()">
                                 </mat-form-field>
                                 @if (paymentAmtIsRequired) {
                                 <div class="error text-danger">

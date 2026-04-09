@@ -117,14 +117,6 @@ export class EodComponent {
                 error: (error) => {
                     this.eodService.isLoading.set(false);
                     console.log(error)
-                    this.snackBar.openFromComponent(CustomSnackbarComponent, {
-                        data: {
-                            message: error.error,
-                        },
-                        verticalPosition: 'top',
-                        horizontalPosition: 'center',
-                        panelClass: ['snackbar-error'],
-                    });
                 },
             });
     }

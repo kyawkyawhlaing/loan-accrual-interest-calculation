@@ -2,6 +2,7 @@ export type LoanAccount = {
     id: string;
     loanAcctNum: string;
     loanAcctName: string;
+    productCode: string;
     outsPrinAmt: number;
     ccy: string;
     ttlAccrIntAmt: number;

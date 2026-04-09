@@ -78,4 +78,8 @@ export class SidebarComponent {
         this.themeService.toggleRTLEnabledTheme();
     }
 
+    onLogout() {
+        this.accountService.logoutUser();
+    }
+
 }

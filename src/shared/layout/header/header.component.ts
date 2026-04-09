@@ -90,4 +90,8 @@ export class HeaderComponent {
         this.themeService.toggleRTLEnabledTheme();
     }
 
+    onLogout() {
+        this.accountService.logoutUser();
+    }
+
 }

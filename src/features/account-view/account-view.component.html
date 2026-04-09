@@ -67,11 +67,19 @@
                         </td>
                     </ng-container>
 
+                    <!-- Product Code Column -->
+                    <ng-container matColumnDef="productCode">
+                        <th mat-header-cell *matHeaderCellDef>Product Code</th>
+                        <td mat-cell *matCellDef="let element">
+                            {{ element.productCode }}
+                        </td>
+                    </ng-container>
+
                     <!-- Outstanding Principal Amount Column -->
                     <ng-container matColumnDef="outsPrinAmt">
                         <th mat-header-cell *matHeaderCellDef>Outstanding Principal</th>
-                        <td mat-cell *matCellDef="let element">
-                            {{ element.outsPrinAmt }}
+                        <td mat-cell *matCellDef="let element" style="text-align: right;">
+                            {{ element.outsPrinAmt | number:'1.2-2' }}
                         </td>
                     </ng-container>
 
@@ -80,8 +88,8 @@
                         <th mat-header-cell *matHeaderCellDef>
                             Interest Amount
                         </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{ element.ttlAccrIntAmt }}
+                        <td mat-cell *matCellDef="let element" style="text-align: right;">
+                            {{ element.ttlAccrIntAmt | number:'1.2-2' }}
                         </td>
                     </ng-container>
 
@@ -90,8 +98,8 @@
                         <th mat-header-cell *matHeaderCellDef>
                             Late Fee Amount
                         </th>
-                        <td mat-cell *matCellDef="let element">
-                            {{ element.ttlAccrPenalAmt }}
+                        <td mat-cell *matCellDef="let element" style="text-align: right;">
+                            {{ element.ttlAccrPenalAmt | number:'1.2-2' }}
                         </td>
                     </ng-container>
 
