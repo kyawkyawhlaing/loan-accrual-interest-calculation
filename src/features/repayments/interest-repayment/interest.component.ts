@@ -96,6 +96,7 @@ export class InterestComponent {
                     Validators.maxLength(20),
                 ],
             ],
+            loanAcctName: ['', Validators.required],
             productCode: ['', Validators.required],
             paymentAmt: ['', [Validators.required]],
             ccy: ['', [Validators.required, Validators.maxLength(4)]],
@@ -123,6 +124,7 @@ export class InterestComponent {
         ).subscribe((loan: any) => {
             if (loan && loan.productCode && loan.ccy) {
                 this.form.patchValue({
+                    loanAcctName: loan.loanAcctName,
                     productCode: loan.productCode,
                     ccy: loan.ccy,
                 });
@@ -170,6 +172,7 @@ export class InterestComponent {
     private resetForm() {
         const resetState = {
             loanAcctNum: '',
+            loanAcctName: '',
             productCode: '',
             paymentAmt: '',
             ccy: '',
@@ -192,6 +195,7 @@ export class InterestComponent {
             .subscribe((loan: any) => {
                 if (loan && loan.productCode && loan.ccy) {
                     this.form.patchValue({
+                        loanAcctName: loan.loanAcctName,
                         productCode: loan.productCode,
                         ccy: loan.ccy,
                     });
@@ -209,6 +213,7 @@ export class InterestComponent {
     private clearLoanRelatedDetails() {
         this.form.get('productCode')?.enable();
         this.form.patchValue({
+            loanAcctName: '',
             productCode: '',
             ccy: '',
         });
@@ -232,6 +237,13 @@ export class InterestComponent {
             (this.form.get('loanAcctNum')!.hasError('minlength') ||
                 this.form.get('loanAcctNum')!.hasError('maxlength')) &&
             this.form.get('loanAcctNum')!.touched
+        );
+    }
+
+    get loanAccountNameIsRequired() {
+        return (
+            this.form.get('loanAcctName')!.hasError('required') &&
+            (this.form.get('loanAcctName')!.touched || this.form.get('loanAcctName')!.dirty)
         );
     }
 
