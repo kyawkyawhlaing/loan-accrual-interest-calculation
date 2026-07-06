@@ -34,7 +34,8 @@ import { MatSelectModule } from '@angular/material/select';
 export class IndividualLoanAccountInterestDetailComponent {
     src!: Blob;
     fileName: string;
-
+    productList: string[] = ['DCF', 'FCF', 'PEF', 'INF', 'STF'];
+    
     private url = environment.apiUrl;
     private http = inject(HttpClient);
     private fb = inject(FormBuilder);
@@ -49,6 +50,7 @@ export class IndividualLoanAccountInterestDetailComponent {
         this.form = this.fb.group({
             startDate: ['', [Validators.required]],
             endDate: ['', [Validators.required]],
+            productCode: ['', Validators.required],
             format: ['', Validators.required]
         });
     }
@@ -60,6 +62,7 @@ export class IndividualLoanAccountInterestDetailComponent {
                 {
                     startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
+                    productCode: this.form.value.productCode,
                     format: (this.form.value.format as string).toLowerCase(),
                     reportFullName: 'Individual_Loan_Account_Interest_Details.jrxml',
                     outputFileName: 'Individual Loan Account Interest Details',
@@ -122,6 +125,13 @@ export class IndividualLoanAccountInterestDetailComponent {
         return (
             this.form.get('format')!.hasError('required') &&
             this.form.get('format')!.touched
+        );
+    }
+
+    get productCodeIsRequired() {
+        return (
+            this.form.get('productCode')!.hasError('required') &&
+            this.form.get('productCode')!.touched
         );
     }
 }

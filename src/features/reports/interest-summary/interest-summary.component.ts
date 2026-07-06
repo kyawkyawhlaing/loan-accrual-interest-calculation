@@ -41,7 +41,8 @@ import { MatSelectModule } from '@angular/material/select';
 export class InterestSummaryComponent {
     src!: Blob;
     fileName: string;
-
+    productList: string[] = ['DCF', 'FCF', 'PEF', 'INF', 'STF'];
+    
     private baseUrl = environment.apiUrl;
     private fb = inject(FormBuilder);
     private http = inject(HttpClient);
@@ -56,6 +57,7 @@ export class InterestSummaryComponent {
         this.form = this.fb.group({
             startDate: ['', [Validators.required]],
             endDate: ['', [Validators.required]],
+            productCode: ['', Validators.required],
             format: ['', Validators.required],
         });
     }
@@ -73,6 +75,7 @@ export class InterestSummaryComponent {
                         this.form.value.endDate as Date,
                         'yyyy-MM-dd'
                     ),
+                    productCode: this.form.value.productCode,
                     format: (this.form.value.format as string).toLowerCase(),
                     reportFullName: 'Loan_Account_Interest_Summary.jrxml',
                     outputFileName: 'Loan Account Interest Summary',
@@ -135,6 +138,13 @@ export class InterestSummaryComponent {
         return (
             this.form.get('format')!.hasError('required') &&
             this.form.get('format')!.touched
+        );
+    }
+
+    get productCodeIsRequired() {
+        return (
+            this.form.get('productCode')!.hasError('required') &&
+            this.form.get('productCode')!.touched
         );
     }
 }

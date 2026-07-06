@@ -41,10 +41,12 @@ import { DatePipe } from '@angular/common';
 export class IncomeAndSundryDetailsComponent {
     src!: Blob;
     fileName: string;
+    productList: string[] = ['DCF', 'FCF', 'PEF', 'INF', 'STF'];
 
     private baseUrl = environment.apiUrl;
     private fb = inject(FormBuilder);
     private http = inject(HttpClient);
+
 
     protected readonly form: FormGroup = new FormGroup({});
 
@@ -56,6 +58,7 @@ export class IncomeAndSundryDetailsComponent {
         this.form = this.fb.group({
             startDate: ['', [Validators.required]],
             endDate: ['', [Validators.required]],
+            productCode: ['', Validators.required],
             format: ['', Validators.required],
         });
     }
@@ -67,6 +70,7 @@ export class IncomeAndSundryDetailsComponent {
                 {
                     startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
+                    productCode: this.form.value.productCode,
                     format: (this.form.value.format as string).toLowerCase(),
                     reportFullName: 'Loan_Account_Income_and_Sundry_Details.jrxml',
                     outputFileName: 'Income & Sundry Details'
@@ -127,4 +131,12 @@ export class IncomeAndSundryDetailsComponent {
             this.form.get('format')!.touched
         );
     }
+
+    get productCodeIsRequired() {
+        return (
+            this.form.get('productCode')!.hasError('required') &&
+            this.form.get('productCode')!.touched
+        );
+    }
+
 }

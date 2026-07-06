@@ -34,7 +34,8 @@ import { MatSelectModule } from '@angular/material/select';
 export class InterestDetailComponent {
     src!: Blob;
     fileName: string;
-
+    productList: string[] = ['DCF', 'FCF', 'PEF', 'INF', 'STF'];
+    
     protected readonly form: FormGroup = new FormGroup({});
 
     private baseUrl = environment.apiUrl;
@@ -49,6 +50,7 @@ export class InterestDetailComponent {
         this.form = this.fb.group({
             startDate: ['', [Validators.required]],
             endDate: ['', [Validators.required]],
+            productCode: ['', Validators.required],
             format: ['', Validators.required]
         });
     }
@@ -60,6 +62,7 @@ export class InterestDetailComponent {
                 {
                     startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
+                    productCode: this.form.value.productCode,
                     format: (this.form.value.format as string).toLowerCase(),
                     reportFullName: 'Loan_Account_Interest_Details.jrxml',
                     outputFileName: 'Loan Account Interest Details',
@@ -122,6 +125,13 @@ export class InterestDetailComponent {
         return (
             this.form.get('format')!.hasError('required') &&
             this.form.get('format')!.touched
+        );
+    }
+
+    get productCodeIsRequired() {
+        return (
+            this.form.get('productCode')!.hasError('required') &&
+            this.form.get('productCode')!.touched
         );
     }
 }

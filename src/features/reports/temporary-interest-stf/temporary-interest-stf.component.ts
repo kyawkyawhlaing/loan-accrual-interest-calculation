@@ -34,7 +34,8 @@ import { MatSelectModule } from '@angular/material/select';
 export class TemporaryInterestSTFComponent {
     src!: Blob;
     fileName: string;
-
+    productList: string[] = ['DCF', 'FCF', 'PEF', 'INF', 'STF'];
+    
     protected readonly form: FormGroup = new FormGroup({});
 
     private url = environment.apiUrl;
@@ -48,6 +49,7 @@ export class TemporaryInterestSTFComponent {
         this.form = this.fb.group({
             startDate: ['', [Validators.required]],
             endDate: ['', [Validators.required]],
+            productCode: ['', Validators.required],
             format: ['', Validators.required]
         });
     }
@@ -59,6 +61,7 @@ export class TemporaryInterestSTFComponent {
                 {
                     startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
+                    productCode: this.form.value.productCode,
                     format: (this.form.value.format as string).toLowerCase(),
                     reportFullName: '3901-0077.jrxml',
                     outputFileName: '2100-0055 Temporary Interest For STF',
@@ -121,6 +124,13 @@ export class TemporaryInterestSTFComponent {
         return (
             this.form.get('format')!.hasError('required') &&
             this.form.get('format')!.touched
+        );
+    }
+
+    get productCodeIsRequired() {
+        return (
+            this.form.get('productCode')!.hasError('required') &&
+            this.form.get('productCode')!.touched
         );
     }
 }

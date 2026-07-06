@@ -1,5 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
 import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
@@ -25,16 +32,17 @@ import { MatSelectModule } from '@angular/material/select';
         MatDatepickerModule,
         MatNativeDateModule,
         MatButtonModule,
-        MatSelectModule
+        MatSelectModule,
     ],
-    providers: [ DatePipe ],
+    providers: [DatePipe],
     templateUrl: './accrued-interest-receivable-stf.component.html',
     styleUrl: './accrued-interest-receivable-stf.component.scss',
 })
 export class AccruedInterestReceivableSTFComponent {
     src!: Blob;
     fileName: string;
-
+    productList: string[] = ['DCF', 'FCF', 'PEF', 'INF', 'STF'];
+    
     protected readonly form: FormGroup = new FormGroup({});
 
     private url = environment.apiUrl;
@@ -48,7 +56,8 @@ export class AccruedInterestReceivableSTFComponent {
         this.form = this.fb.group({
             startDate: ['', [Validators.required]],
             endDate: ['', [Validators.required]],
-            format: ['', Validators.required]
+            productCode: ['', Validators.required],
+            format: ['', Validators.required],
         });
     }
 
@@ -57,25 +66,38 @@ export class AccruedInterestReceivableSTFComponent {
             .post(
                 this.url + 'reports',
                 {
-                    startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
-                    endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
+                    startDate: this.datePipe.transform(
+                        this.form.value.startDate as Date,
+                        'yyyy-MM-dd',
+                    ),
+                    endDate: this.datePipe.transform(
+                        this.form.value.endDate as Date,
+                        'yyyy-MM-dd',
+                    ),
+                    productCode: this.form.value.productCode,
                     format: (this.form.value.format as string).toLowerCase(),
                     reportFullName: '2100-0055.jrxml',
-                    outputFileName: '2100-0055 Accrued Interest Receivable For STF',
+                    outputFileName:
+                        '2100-0055 Accrued Interest Receivable For STF',
                 },
-                { observe: 'response', responseType: 'blob' }
+                { observe: 'response', responseType: 'blob' },
             )
             .subscribe({
                 next: (response) => {
-                    const contentDisposition = response.headers.get('content-disposition') || '';
+                    const contentDisposition =
+                        response.headers.get('content-disposition') || '';
 
                     let fileName = 'unknown';
 
-                    const utf8Match = contentDisposition.match(/filename\*\=UTF-8''([^;]+)/);
+                    const utf8Match = contentDisposition.match(
+                        /filename\*\=UTF-8''([^;]+)/,
+                    );
                     if (utf8Match && utf8Match[1]) {
                         fileName = decodeURIComponent(utf8Match[1]);
                     } else {
-                        const asciiMatch = contentDisposition.match(/filename=\"?([^\";]+)\"?/);
+                        const asciiMatch = contentDisposition.match(
+                            /filename=\"?([^\";]+)\"?/,
+                        );
                         if (asciiMatch && asciiMatch[1]) {
                             fileName = asciiMatch[1];
                         }
@@ -90,7 +112,10 @@ export class AccruedInterestReceivableSTFComponent {
                         this.src = blob;
                     }
                     if (this.form.value.format.toLowerCase() === 'excel') {
-                        this.fileName = this.fileName.replace('.excel', '.xlsx');
+                        this.fileName = this.fileName.replace(
+                            '.excel',
+                            '.xlsx',
+                        );
                         const blob = new File([response.body!], this.fileName, {
                             type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                         });
@@ -99,8 +124,8 @@ export class AccruedInterestReceivableSTFComponent {
                     this.form.reset(this.form.value);
                     this.form.markAsPristine();
                     this.form.markAsUntouched();
-                }
-            })
+                },
+            });
     }
 
     get startDateIsRequired() {
@@ -121,6 +146,13 @@ export class AccruedInterestReceivableSTFComponent {
         return (
             this.form.get('format')!.hasError('required') &&
             this.form.get('format')!.touched
+        );
+    }
+
+    get productCodeIsRequired() {
+        return (
+            this.form.get('productCode')!.hasError('required') &&
+            this.form.get('productCode')!.touched
         );
     }
 }

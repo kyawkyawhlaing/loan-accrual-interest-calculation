@@ -1,7 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { environment } from '../../../environments/environment.development';
 import { HttpClient } from '@angular/common/http';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+    FormBuilder,
+    FormControl,
+    FormGroup,
+    FormsModule,
+    ReactiveFormsModule,
+    Validators,
+} from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { saveAs } from 'file-saver';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
@@ -14,27 +21,29 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 
 @Component({
-  selector: 'app-individual-loan-principal-overdue-fee-detail',
-  imports: [
-      NgxExtendedPdfViewerModule,
-      MatCardModule,
-      FormsModule,
-      ReactiveFormsModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatDatepickerModule,
-      MatNativeDateModule,
-      MatButtonModule,
-      MatSelectModule
-  ],
-  providers: [ DatePipe ],
-  templateUrl: './individual-loan-principal-overdue-fee-detail.component.html',
-  styleUrl: './individual-loan-principal-overdue-fee-detail.component.scss',
+    selector: 'app-individual-loan-principal-overdue-fee-detail',
+    imports: [
+        NgxExtendedPdfViewerModule,
+        MatCardModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatButtonModule,
+        MatSelectModule,
+    ],
+    providers: [DatePipe],
+    templateUrl:
+        './individual-loan-principal-overdue-fee-detail.component.html',
+    styleUrl: './individual-loan-principal-overdue-fee-detail.component.scss',
 })
 export class IndividualLoanPrincipalOverdueFeeDetailComponent {
     src!: Blob;
     fileName: string;
-
+    productList: string[] = ['DCF', 'FCF', 'PEF', 'INF', 'STF'];
+    
     protected readonly form: FormGroup = new FormGroup({});
 
     private baseUrl = environment.apiUrl;
@@ -49,7 +58,8 @@ export class IndividualLoanPrincipalOverdueFeeDetailComponent {
         this.form = this.fb.group({
             startDate: ['', [Validators.required]],
             endDate: ['', [Validators.required]],
-            format: ['', Validators.required]
+            productCode: ['', Validators.required],
+            format: ['', Validators.required],
         });
     }
 
@@ -58,25 +68,39 @@ export class IndividualLoanPrincipalOverdueFeeDetailComponent {
             .post(
                 this.baseUrl + 'reports',
                 {
-                    startDate: this.datePipe.transform(this.form.value.startDate as Date, 'yyyy-MM-dd'),
-                    endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
+                    startDate: this.datePipe.transform(
+                        this.form.value.startDate as Date,
+                        'yyyy-MM-dd',
+                    ),
+                    endDate: this.datePipe.transform(
+                        this.form.value.endDate as Date,
+                        'yyyy-MM-dd',
+                    ),
+                    productCode: this.form.value.productCode,
                     format: (this.form.value.format as string).toLowerCase(),
-                    reportFullName: 'Individual_Loan_Principal_Overdue_Fee_Details.jrxml',
-                    outputFileName: 'Individual Loan Principal Overdue Fee Details',
+                    reportFullName:
+                        'Individual_Loan_Principal_Overdue_Fee_Details.jrxml',
+                    outputFileName:
+                        'Individual Loan Principal Overdue Fee Details',
                 },
-                { observe: 'response', responseType: 'blob' }
+                { observe: 'response', responseType: 'blob' },
             )
             .subscribe({
                 next: (response) => {
-                    const contentDisposition = response.headers.get('content-disposition') || '';
+                    const contentDisposition =
+                        response.headers.get('content-disposition') || '';
 
                     let fileName = 'unknown';
 
-                    const utf8Match = contentDisposition.match(/filename\*\=UTF-8''([^;]+)/);
+                    const utf8Match = contentDisposition.match(
+                        /filename\*\=UTF-8''([^;]+)/,
+                    );
                     if (utf8Match && utf8Match[1]) {
                         fileName = decodeURIComponent(utf8Match[1]);
                     } else {
-                        const asciiMatch = contentDisposition.match(/filename=\"?([^\";]+)\"?/);
+                        const asciiMatch = contentDisposition.match(
+                            /filename=\"?([^\";]+)\"?/,
+                        );
                         if (asciiMatch && asciiMatch[1]) {
                             fileName = asciiMatch[1];
                         }
@@ -91,7 +115,10 @@ export class IndividualLoanPrincipalOverdueFeeDetailComponent {
                         this.src = blob;
                     }
                     if (this.form.value.format.toLowerCase() === 'excel') {
-                        this.fileName = this.fileName.replace('.excel', '.xlsx');
+                        this.fileName = this.fileName.replace(
+                            '.excel',
+                            '.xlsx',
+                        );
                         const blob = new File([response.body!], this.fileName, {
                             type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                         });
@@ -100,8 +127,8 @@ export class IndividualLoanPrincipalOverdueFeeDetailComponent {
                     this.form.reset(this.form.value);
                     this.form.markAsPristine();
                     this.form.markAsUntouched();
-                }
-            })
+                },
+            });
     }
 
     get startDateIsRequired() {
@@ -124,4 +151,12 @@ export class IndividualLoanPrincipalOverdueFeeDetailComponent {
             this.form.get('format')!.touched
         );
     }
+
+    get productCodeIsRequired() {
+        return (
+            this.form.get('productCode')!.hasError('required') &&
+            this.form.get('productCode')!.touched
+        );
+    }
+
 }

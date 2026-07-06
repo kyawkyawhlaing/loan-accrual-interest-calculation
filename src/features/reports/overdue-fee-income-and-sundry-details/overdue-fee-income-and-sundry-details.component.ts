@@ -34,7 +34,8 @@ import { DatePipe } from '@angular/common';
 export class OverdueFeeIncomeAndSundryDetailsComponent {
     src!: Blob;
     fileName: string;
-
+    productList: string[] = ['DCF', 'FCF', 'PEF', 'INF', 'STF'];
+    
     private baseUrl = environment.apiUrl;
     private fb = inject(FormBuilder);
     private http = inject(HttpClient);
@@ -49,6 +50,7 @@ export class OverdueFeeIncomeAndSundryDetailsComponent {
         this.form = this.fb.group({
             startDate: ['', [Validators.required]],
             endDate: ['', [Validators.required]],
+            productCode: ['', Validators.required],
             format: ['', Validators.required]
         });
     }
@@ -62,6 +64,7 @@ export class OverdueFeeIncomeAndSundryDetailsComponent {
                         this.form.value.startDate as Date, 'yyyy-MM-dd'
                     ),
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
+                    productCode: this.form.value.productCode,
                     format: (this.form.value.format as string).toLowerCase(),
                     reportFullName:
                         'Loan_Principal_Overdue_Fee_Income_And_Sundry_Details.jrxml',
@@ -121,6 +124,13 @@ export class OverdueFeeIncomeAndSundryDetailsComponent {
         return (
             this.form.get('format')!.hasError('required') &&
             this.form.get('format')!.touched
+        );
+    }
+
+    get productCodeIsRequired() {
+        return (
+            this.form.get('productCode')!.hasError('required') &&
+            this.form.get('productCode')!.touched
         );
     }
 }
