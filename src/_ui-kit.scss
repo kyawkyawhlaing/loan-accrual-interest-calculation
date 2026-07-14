@@ -847,12 +847,8 @@ html {
 
         .mdc-dialog__surface {
             box-shadow: unset;
-            border-radius: 0;
+            border-radius: 10px;
             padding: 30px;
-
-            &::before {
-                display: none;
-            }
         }
         .mdc-dialog__title {
             padding: 0;
@@ -863,9 +859,6 @@ html {
             font: {
                 family: var(--fontFamily);
             };
-            &::before {
-                display: none;
-            }   
         }
         .mdc-dialog__content {
             padding: 0;

@@ -1,4 +1,3 @@
-// custom-snackbar.component.ts
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
 import {
@@ -10,16 +9,18 @@ import {
     selector: 'app-custom-snackbar',
     imports: [CommonModule],
     template: `
-        <div class="flex items-center justify-between" [ngClass]="getClass()">
-            <span>{{ data.message }}</span>
-            <button (click)="close()" class="ml-4">
-                <i class="ri-close-line"></i>
-            </button>
-        </div>
+        @if (data?.message) {
+            <div class="snackbar-content" [ngClass]="getClass()">
+                <span>{{ data.message }}</span>
+                <button type="button" (click)="close()" class="ml-4" aria-label="Close">
+                    <i class="ri-close-line"></i>
+                </button>
+            </div>
+        }
     `,
     styles: [
         `
-            div {
+            .snackbar-content {
                 width: 100%;
                 display: flex;
                 justify-content: space-between;
@@ -54,14 +55,18 @@ export class CustomSnackbarComponent {
     constructor(
         private snackBarRef: MatSnackBarRef<CustomSnackbarComponent>,
         @Inject(MAT_SNACK_BAR_DATA) public data: any
-    ) {}
+    ) {
+        if (!this.data?.message) {
+            queueMicrotask(() => this.snackBarRef.dismiss());
+        }
+    }
 
     close() {
         this.snackBarRef.dismiss();
     }
 
     getClass() {
-        switch (this.data.type) {
+        switch (this.data?.type) {
             case 'success':
                 return 'success';
             case 'error':
@@ -71,7 +76,7 @@ export class CustomSnackbarComponent {
             case 'info':
                 return 'info';
             default:
-                return '';
+                return 'info';
         }
     }
 }

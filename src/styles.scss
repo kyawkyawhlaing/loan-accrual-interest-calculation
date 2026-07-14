@@ -178,6 +178,37 @@ button {
     margin-bottom: 25px !important;
 }
 
+.app-toast-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10000;
+    width: min(420px, calc(100% - 30px));
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.app-toast {
+    margin-bottom: 0 !important;
+}
+
+.app-toast-message {
+    flex: 1;
+    text-align: left;
+}
+
+.app-toast-close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: inherit;
+    font-size: 16px;
+    line-height: 1;
+    padding: 0 4px;
+}
+
 .mat-mdc-snackbar-surface {
   background-color: inherit !important;  /* let Tailwind bg-* apply */
   color: inherit !important;

@@ -153,7 +153,7 @@
 
                    @if (form.valid) {
                         <div class="btn-box d-md-flex align-items-center justify-content-end">
-                            <button mat-button>
+                            <button mat-button type="submit">
                                 Process
                             </button>
                         </div>
@@ -163,3 +163,13 @@
         </div>
     </div>
 </form>
+
+@if (showConfirmDialog) {
+    <app-confirm-dialog
+        title="Confirm Late Fee Repayment"
+        message="Please review the details below and confirm to process this late fee repayment."
+        [details]="confirmDetails"
+        (confirmed)="onConfirmSubmit()"
+        (cancelled)="closeConfirmDialog()">
+    </app-confirm-dialog>
+}

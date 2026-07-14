@@ -15,6 +15,7 @@ import { Editor, NgxEditorModule, Toolbar } from "ngx-editor";
 import { catchError, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { CustomizerSettingsService } from "../../../core/customizer-settings/customizer-settings.service";
+import { ConfirmDialogComponent, ConfirmDialogDetail } from "../../../shared/alert/confirm-dialog.component";
 import { CustomSnackbarComponent } from "../../../shared/alert/custom-snackbar.component";
 import { ThousandSeparatorDirective } from "../../../shared/directives/thousand-separator.directive";
 import { PrincipalService } from "./principal.service";
@@ -40,6 +41,7 @@ import { UppercaseDirective } from "../../../shared/directives/uppercase.directi
         NgxEditorModule,
         ThousandSeparatorDirective,
         UppercaseDirective,
+        ConfirmDialogComponent,
     ],
     templateUrl: 'principal.component.html',
     styleUrl: 'principal.component.scss',
@@ -54,6 +56,9 @@ export class PrincipalComponent {
     private destroyRef = inject(DestroyRef);
 
     protected form: FormGroup = new FormGroup({});
+    showConfirmDialog = false;
+    confirmDetails: ConfirmDialogDetail[] = [];
+    private pendingVoucher: any = null;
 
     isReadonly = false;
 
@@ -143,14 +148,45 @@ export class PrincipalComponent {
     }
 
     onSubmit() {
-        const voucher = this.form.getRawValue();
+        if (!this.form.valid) {
+            return;
+        }
 
+        this.pendingVoucher = this.form.getRawValue();
+        this.confirmDetails = [
+            { label: 'Loan Account Number', value: this.pendingVoucher.loanAcctNum || '-' },
+            { label: 'Loan Account Name', value: this.pendingVoucher.loanAcctName || '-' },
+            { label: 'Product Code', value: this.pendingVoucher.productCode || '-' },
+            { label: 'Payment Amount', value: this.pendingVoucher.paymentAmt || '-' },
+            { label: 'Currency Code', value: this.pendingVoucher.ccy || '-' },
+        ];
+        this.showConfirmDialog = true;
+    }
+
+    onConfirmSubmit() {
+        const voucher = this.pendingVoucher;
+        this.closeConfirmDialog();
+
+        if (!voucher) {
+            return;
+        }
+
+        this.createPrincipalVoucher(voucher);
+    }
+
+    closeConfirmDialog() {
+        this.showConfirmDialog = false;
+        this.pendingVoucher = null;
+        this.confirmDetails = [];
+    }
+
+    private createPrincipalVoucher(voucher: any) {
         this.voucherService.createRepaymentVoucher({
             ...voucher,
             paymentAmt: this.utilsService.parseAmount(voucher.paymentAmt)
         })
         .subscribe({
-            next: (response) => {
+            next: () => {
                 this.resetForm();
                 this.snackBar.openFromComponent(CustomSnackbarComponent, {
                     data: { message: 'Principal voucher is saved successfully!', type: 'success' },
@@ -162,7 +198,7 @@ export class PrincipalComponent {
             error: (error) => {
                 console.log(error);
             }
-        })
+        });
     }
 
     private resetForm() {
