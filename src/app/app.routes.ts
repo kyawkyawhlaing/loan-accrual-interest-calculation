@@ -19,6 +19,7 @@ import { IndividualLoanAccountInterestDetailComponent } from '../features/report
 import { IndividualLoanPrincipalOverdueFeeDetailComponent } from '../features/reports/individual-loan-principal-overdue-fee-detail/individual-loan-principal-overdue-fee-detail.component';
 import { AccruedInterestReceivableSTFComponent } from '../features/reports/accrued-interest-receivable-stf/accrued-interest-receivable-stf.component';
 import { TemporaryInterestSTFComponent } from '../features/reports/temporary-interest-stf/temporary-interest-stf.component';
+import { AuditLogComponent } from '../features/audit-logs/audit-log.component';
 
 
 
@@ -26,6 +27,7 @@ import { TemporaryInterestSTFComponent } from '../features/reports/temporary-int
 export const routes: Routes = [
     { path: '', component: AccountViewComponent },
     { path: 'account-view', component: AccountViewComponent },
+    { path: 'audit-logs', component: AuditLogComponent },
     {
         path: 'report',
         children: [

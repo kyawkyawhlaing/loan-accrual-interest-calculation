@@ -9,10 +9,12 @@ import { HeaderComponent } from '../shared/layout/header/header.component';
 import { SidebarComponent } from '../shared/layout/sidebar/sidebar.component';
 import { ToggleService } from '../shared/layout/sidebar/toggle.service';
 import { CustomizerSettingsService } from '../core/customizer-settings/customizer-settings.service';
+import { AccountService } from '../core/services/account.service';
+import { ConfirmDialogComponent } from '../shared/alert/confirm-dialog.component';
 
 @Component({
     selector: 'app-root',
-    imports: [RouterOutlet, SidebarComponent, HeaderComponent, FooterComponent, NgClass],
+    imports: [RouterOutlet, SidebarComponent, HeaderComponent, FooterComponent, NgClass, ConfirmDialogComponent],
     templateUrl: './app.component.html',
     styleUrl: './app.component.scss',
     providers: [
@@ -37,7 +39,8 @@ export class AppComponent {
     constructor(
         public router: Router,
         private toggleService: ToggleService,
-        public themeService: CustomizerSettingsService
+        public themeService: CustomizerSettingsService,
+        public accountService: AccountService
     ) {
         this.toggleService.isSidebarToggled$.subscribe(isSidebarToggled => {
             this.isSidebarToggled = isSidebarToggled;

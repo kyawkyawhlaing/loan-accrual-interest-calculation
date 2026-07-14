@@ -3,14 +3,17 @@ import { User } from "../../shared/types/user";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment.development";
 import { map, tap } from "rxjs";
+import { SignalrService } from "./signalr.service";
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
     currentUser = signal<User | null>(null);
     username = signal<string>('');
     role = signal<string>('');
+    showLogoutConfirm = signal(false);
 
     private http = inject(HttpClient);
+    private signalrService = inject(SignalrService);
     private baseUrl = environment.apiUrl;
 
     getUserInfo() {
@@ -30,33 +33,39 @@ export class AccountService {
         this.role.set(user?.role ?? '');
     }
 
+    requestLogout() {
+        this.showLogoutConfirm.set(true);
+    }
+
+    cancelLogout() {
+        this.showLogoutConfirm.set(false);
+    }
+
+    confirmLogout() {
+        this.showLogoutConfirm.set(false);
+        this.logoutUser();
+    }
+
     logoutUser() {
-        	var cookies = document.cookie.split(";");
+        const cookies = document.cookie.split(";");
 
-			cookies.forEach(cookie => {
-				var name = cookie.indexOf("=") > -1 ? cookie.substr(0, cookie.indexOf("=")) : cookie;
-				console.log('Cookie Name: ', name)
-				document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
-			});
+        cookies.forEach(cookie => {
+            const name = cookie.indexOf("=") > -1 ? cookie.substr(0, cookie.indexOf("=")) : cookie;
+            document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/";
+        });
 
-			const result = confirm('Are you sure you want to log out?');
+        void this.signalrService.stopConnection();
 
-			if (result) {
-                this.http
-                    .post(this.baseUrl + 'logout', {})
-                    .subscribe(() => {
-                        this.setCurrentUser(null);
-                    });
+        this.http
+            .post(this.baseUrl + 'logout', {})
+            .subscribe(() => {
+                this.setCurrentUser(null);
+            });
 
-				localStorage.clear();
+        localStorage.clear();
+        sessionStorage.clear();
 
-				sessionStorage.clear();
-
-				setTimeout(() => window.close(), 2000);
-			} else {
-				console.info('logout cancel');
-			}
-
+        setTimeout(() => window.close(), 2000);
     }
 }
 

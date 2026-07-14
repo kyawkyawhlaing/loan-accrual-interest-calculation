@@ -4,12 +4,12 @@ import { inject } from '@angular/core';
 import { delay, finalize, identity, of, tap } from 'rxjs';
 import { environment } from '../../environments/environment.development';
 import { BusyService } from '../services/busy.service';
-
-
-const cache = new Map<string, HttpEvent<unknown>>();
+import { HttpCacheService } from '../services/http-cache.service';
 
 export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   const busyService = inject(BusyService);
+  const httpCache = inject(HttpCacheService);
+
   const generateCacheKey = (url: string, params: HttpParams): string => {
     const paramString = params
       .keys()
@@ -18,28 +18,31 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
     return paramString ? `${url}?${paramString}` : url;
   };
 
-  const invalidateCache = (urlPattern: string) => {
-    for (const key of cache.keys()) {
-      if (key.includes(urlPattern)) {
-        cache.delete(key);
-        console.log(`Cache invalidated for: ${key}`);
-      }
-    }
-  };
-
   const cacheKey = generateCacheKey(req.url, req.params);
 
   if (req.method.includes('GET') && req.url.includes('/repayments')) {
-    invalidateCache('/repayments');
-    cache.clear();
+    httpCache.invalidate('/repayments');
+    httpCache.clear();
   }
 
   if (req.method.includes('POST') && req.url.includes('/logout')) {
-    cache.clear();
+    httpCache.clear();
+  }
+
+  if (
+    req.method === 'POST' &&
+    (req.url.includes('/repayment') ||
+      req.url.includes('/eods/process') ||
+      req.url.includes('/principal') ||
+      req.url.includes('/interest') ||
+      req.url.includes('/latefee'))
+  ) {
+    httpCache.invalidate('loan-accounts');
+    httpCache.invalidate('audit-logs');
   }
 
   if (req.method == 'GET') {
-    const cacheResponse = cache.get(cacheKey);
+    const cacheResponse = httpCache.get<HttpEvent<unknown>>(cacheKey);
     if (cacheResponse) {
       return of(cacheResponse);
     }
@@ -50,7 +53,9 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   return next(req).pipe(
     (environment.production ? identity : delay(500)),
     tap((response) => {
-      cache.set(cacheKey, response);
+      if (req.method === 'GET') {
+        httpCache.set(cacheKey, response);
+      }
     }),
     finalize(() => {
       busyService.idle();

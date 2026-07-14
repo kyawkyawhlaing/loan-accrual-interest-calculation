@@ -79,7 +79,7 @@ export class SidebarComponent {
     }
 
     onLogout() {
-        this.accountService.logoutUser();
+        this.accountService.requestLogout();
     }
 
 }

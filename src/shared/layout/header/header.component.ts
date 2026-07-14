@@ -91,7 +91,7 @@ export class HeaderComponent {
     }
 
     onLogout() {
-        this.accountService.logoutUser();
+        this.accountService.requestLogout();
     }
 
 }

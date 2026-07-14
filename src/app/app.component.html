@@ -23,3 +23,14 @@
     </div>
 
 </div>
+
+@if (accountService.showLogoutConfirm()) {
+    <app-confirm-dialog
+        title="Confirm Logout"
+        message="Are you sure you want to log out?"
+        confirmText="Logout"
+        cancelText="Cancel"
+        (confirmed)="accountService.confirmLogout()"
+        (cancelled)="accountService.cancelLogout()">
+    </app-confirm-dialog>
+}

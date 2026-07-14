@@ -21,6 +21,16 @@
                         LISTS
                     </span>
 
+                    <a routerLink="/audit-logs" class="sidebar-menu-link" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{exact: true}">
+                        <i class="material-symbols-outlined">
+                            history
+                        </i>
+                        <span class="title">
+                            Audit Logs
+                        </span>
+                    </a>
+
                     @if (!accountService.role().includes('MFTBEOD')) {
                         <a routerLink="/account-view" class="sidebar-menu-link" routerLinkActive="active"
                             [routerLinkActiveOptions]="{exact: true}">

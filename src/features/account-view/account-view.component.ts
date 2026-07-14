@@ -1,4 +1,5 @@
 import { Component, DestroyRef, inject, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -6,8 +7,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { RouterLink } from '@angular/router';
 import { CustomizerSettingsService } from '../../core/customizer-settings/customizer-settings.service';
+import { SignalrService } from '../../core/services/signalr.service';
 
 import { AccountViewService } from './account-view.service';
 import { LoanAccount, LoanAccountParams } from '../../shared/types/loan-account';
@@ -25,6 +26,7 @@ export class AccountViewComponent {
 
     private  destroyRef = inject(DestroyRef);
     private accountViewService = inject(AccountViewService);
+    private signalrService = inject(SignalrService);
 
     protected loanAccountParams = new LoanAccountParams();
 
@@ -38,6 +40,14 @@ export class AccountViewComponent {
             this.loanAccountParams.pageSize = this.paginator.pageSize;
             this.loadData();
         });
+
+        this.signalrService.refresh$
+            .pipe(takeUntilDestroyed(this.destroyRef))
+            .subscribe((tables) => {
+                if (tables.includes('loan-accounts')) {
+                    this.loadData();
+                }
+            });
     }
 
     loadData() {
@@ -78,4 +88,3 @@ export class AccountViewComponent {
     }
 
 }
-
