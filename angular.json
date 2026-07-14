@@ -40,7 +40,7 @@
                     "builder": "@angular/build:application",
                     "options": {
                         "outputPath": {
-                            "base": "C:/Users/KAYW LATT/Desktop/CurrentWorkspace/MFTB Interest Calculation System/INTCS/Api/wwwroot",
+                            "base": "D:/KyawKyawHlaing/Jobs/mftb/Customzied Project/Customized Loan/CurrentWorkspace/loan-outstanding-prj/Api/wwwroot",
                             "browser": ""
                         },
                         "index": "src/index.html",

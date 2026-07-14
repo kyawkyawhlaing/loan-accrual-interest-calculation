@@ -21,7 +21,7 @@
                         LISTS
                     </span>
 
-                    @if (!accountService.username().includes('MFTBEOD')) {
+                    @if (!accountService.role().includes('MFTBEOD')) {
                         <a routerLink="/account-view" class="sidebar-menu-link" routerLinkActive="active"
                             [routerLinkActiveOptions]="{exact: true}">
                             <i class="material-symbols-outlined">
@@ -130,7 +130,7 @@
                         PAGES
                     </span>
 
-                    @if (!accountService.username().includes('MFTBEOD')) {
+                    @if (!accountService.role().includes('MFTBEOD')) {
                     <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
                         <mat-expansion-panel-header>
                             <mat-panel-title>
@@ -165,10 +165,7 @@
                     </mat-expansion-panel>
                     }
 
-                    @if (accountService.username().includes('ITAKZY')
-                        || accountService.username().includes('SIGMA8')
-                        || accountService.username().includes('ACEIDC1')
-                        || accountService.username().includes('MFTBEOD')) {
+                    @if (accountService.role().includes('MFTBEOD')) {
                         <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
@@ -190,6 +187,7 @@
                             </ul>
                         </mat-expansion-panel>
                     }
+
                     <a (click)="onLogout()" class="sidebar-menu-link">
                         <i class="material-symbols-outlined">
                             logout
