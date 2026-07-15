@@ -35,6 +35,18 @@
     </app-confirm-dialog>
 }
 
+@if (accountService.showLogoutCountdown()) {
+    <app-confirm-dialog
+        title="Logging Out"
+        message="You will be logged out automatically."
+        confirmText="Logout Now"
+        cancelText="Cancel"
+        [countdown]="accountService.logoutCountdown()"
+        (confirmed)="accountService.logoutNow()"
+        (cancelled)="accountService.cancelLogout()">
+    </app-confirm-dialog>
+}
+
 @if (alertService.visible()) {
     <app-confirm-dialog
         [title]="alertService.title()"

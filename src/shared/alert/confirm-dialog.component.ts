@@ -24,6 +24,13 @@ export interface ConfirmDialogDetail {
                     <mat-card-content>
                         <p class="confirm-message mb-0">{{ message }}</p>
 
+                        @if (countdown !== null) {
+                            <div class="confirm-countdown">
+                                <span class="confirm-countdown__value">{{ countdown }}</span>
+                                <span class="confirm-countdown__label">second{{ countdown === 1 ? '' : 's' }}</span>
+                            </div>
+                        }
+
                         @if (details.length) {
                             <div class="confirm-details">
                                 @for (detail of details; track detail.label) {
@@ -36,9 +43,11 @@ export interface ConfirmDialogDetail {
                         }
 
                         <div class="btn-box">
-                            <button mat-button type="button" (click)="onConfirm()">
-                                {{ confirmText }}
-                            </button>
+                            @if (showConfirm) {
+                                <button mat-button type="button" (click)="onConfirm()">
+                                    {{ confirmText }}
+                                </button>
+                            }
                             @if (showCancel) {
                                 <button mat-button type="button" (click)="onCancel()">
                                     {{ cancelText }}
@@ -109,6 +118,30 @@ export interface ConfirmDialogDetail {
                 margin-bottom: 16px !important;
             }
 
+            .confirm-countdown {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                margin: 8px 0 20px;
+                padding: 18px 16px;
+                border: 1px solid #eeeeee;
+                border-radius: 6px;
+            }
+
+            .confirm-countdown__value {
+                font-size: 48px;
+                font-weight: 700;
+                line-height: 1;
+                color: var(--daxaColor);
+            }
+
+            .confirm-countdown__label {
+                margin-top: 8px;
+                font-size: 14px;
+                color: var(--bodyColor);
+            }
+
             .confirm-details {
                 border: 1px solid #eeeeee;
                 border-radius: 6px;
@@ -170,6 +203,8 @@ export class ConfirmDialogComponent {
     @Input() confirmText = 'Confirm';
     @Input() cancelText = 'Cancel';
     @Input() showCancel = true;
+    @Input() showConfirm = true;
+    @Input() countdown: number | null = null;
     @Input() details: ConfirmDialogDetail[] = [];
 
     @Output() confirmed = new EventEmitter<void>();

@@ -11,6 +11,11 @@ export class AccountService {
     username = signal<string>('');
     role = signal<string>('');
     showLogoutConfirm = signal(false);
+    showLogoutCountdown = signal(false);
+    logoutCountdown = signal(5);
+
+    private readonly logoutCountdownSeconds = 5;
+    private logoutTimer: ReturnType<typeof setInterval> | null = null;
 
     private http = inject(HttpClient);
     private signalrService = inject(SignalrService);
@@ -34,16 +39,51 @@ export class AccountService {
     }
 
     requestLogout() {
+        this.clearLogoutTimer();
+        this.showLogoutCountdown.set(false);
         this.showLogoutConfirm.set(true);
     }
 
     cancelLogout() {
+        this.clearLogoutTimer();
         this.showLogoutConfirm.set(false);
+        this.showLogoutCountdown.set(false);
+        this.logoutCountdown.set(this.logoutCountdownSeconds);
     }
 
     confirmLogout() {
         this.showLogoutConfirm.set(false);
+        this.startLogoutCountdown();
+    }
+
+    logoutNow() {
+        this.clearLogoutTimer();
+        this.showLogoutCountdown.set(false);
         this.logoutUser();
+    }
+
+    private startLogoutCountdown() {
+        this.clearLogoutTimer();
+        this.logoutCountdown.set(this.logoutCountdownSeconds);
+        this.showLogoutCountdown.set(true);
+
+        this.logoutTimer = setInterval(() => {
+            const next = this.logoutCountdown() - 1;
+            this.logoutCountdown.set(next);
+
+            if (next <= 0) {
+                this.clearLogoutTimer();
+                this.showLogoutCountdown.set(false);
+                this.logoutUser();
+            }
+        }, 1000);
+    }
+
+    private clearLogoutTimer() {
+        if (this.logoutTimer) {
+            clearInterval(this.logoutTimer);
+            this.logoutTimer = null;
+        }
     }
 
     logoutUser() {
@@ -65,7 +105,7 @@ export class AccountService {
         localStorage.clear();
         sessionStorage.clear();
 
-        setTimeout(() => window.close(), 2000);
+        setTimeout(() => window.close(), 500);
     }
 }
 
