@@ -173,3 +173,14 @@
         (cancelled)="closeConfirmDialog()">
     </app-confirm-dialog>
 }
+
+@if (showSuccessDialog) {
+    <app-confirm-dialog
+        title="Interest Successful"
+        message="Interest voucher is saved successfully!"
+        confirmText="OK"
+        [showCancel]="false"
+        (confirmed)="closeSuccessDialog()"
+        (cancelled)="closeSuccessDialog()">
+    </app-confirm-dialog>
+}

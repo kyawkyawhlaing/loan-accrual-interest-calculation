@@ -10,6 +10,7 @@ import { SidebarComponent } from '../shared/layout/sidebar/sidebar.component';
 import { ToggleService } from '../shared/layout/sidebar/toggle.service';
 import { CustomizerSettingsService } from '../core/customizer-settings/customizer-settings.service';
 import { AccountService } from '../core/services/account.service';
+import { AlertService } from '../core/services/alert.service';
 import { ConfirmDialogComponent } from '../shared/alert/confirm-dialog.component';
 
 @Component({
@@ -40,7 +41,8 @@ export class AppComponent {
         public router: Router,
         private toggleService: ToggleService,
         public themeService: CustomizerSettingsService,
-        public accountService: AccountService
+        public accountService: AccountService,
+        public alertService: AlertService
     ) {
         this.toggleService.isSidebarToggled$.subscribe(isSidebarToggled => {
             this.isSidebarToggled = isSidebarToggled;

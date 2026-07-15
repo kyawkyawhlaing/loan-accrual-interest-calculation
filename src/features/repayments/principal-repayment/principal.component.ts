@@ -8,7 +8,6 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatSelectModule } from "@angular/material/select";
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { RouterLink } from "@angular/router";
 import { FileUploadModule } from "@iplab/ngx-file-upload";
 import { Editor, NgxEditorModule, Toolbar } from "ngx-editor";
@@ -16,7 +15,6 @@ import { catchError, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { CustomizerSettingsService } from "../../../core/customizer-settings/customizer-settings.service";
 import { ConfirmDialogComponent, ConfirmDialogDetail } from "../../../shared/alert/confirm-dialog.component";
-import { CustomSnackbarComponent } from "../../../shared/alert/custom-snackbar.component";
 import { ThousandSeparatorDirective } from "../../../shared/directives/thousand-separator.directive";
 import { PrincipalService } from "./principal.service";
 import { UtilsService } from "../../../core/services/utils.service";
@@ -50,13 +48,13 @@ export class PrincipalComponent {
     @ViewChild(FormGroupDirective) private formGroupDirective?: FormGroupDirective;
 
     private fb = inject(FormBuilder);
-    private snackBar = inject(MatSnackBar);
     private voucherService = inject(PrincipalService);
     private utilsService = inject(UtilsService);
     private destroyRef = inject(DestroyRef);
 
     protected form: FormGroup = new FormGroup({});
     showConfirmDialog = false;
+    showSuccessDialog = false;
     confirmDetails: ConfirmDialogDetail[] = [];
     private pendingVoucher: any = null;
 
@@ -188,17 +186,16 @@ export class PrincipalComponent {
         .subscribe({
             next: () => {
                 this.resetForm();
-                this.snackBar.openFromComponent(CustomSnackbarComponent, {
-                    data: { message: 'Principal voucher is saved successfully!', type: 'success' },
-                    verticalPosition: 'top',
-                    horizontalPosition: 'center',
-                    panelClass: [`snackbar-success`]
-                });
+                this.showSuccessDialog = true;
             },
             error: (error) => {
                 console.log(error);
             }
         });
+    }
+
+    closeSuccessDialog() {
+        this.showSuccessDialog = false;
     }
 
     private resetForm() {

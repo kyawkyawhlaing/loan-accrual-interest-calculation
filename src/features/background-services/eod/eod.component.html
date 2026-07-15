@@ -69,3 +69,14 @@
         </div>
     </div>
 </form>
+
+@if (showSuccessDialog) {
+    <app-confirm-dialog
+        title="EOD Successful"
+        message="EOD has proceeded successfully!"
+        confirmText="OK"
+        [showCancel]="false"
+        (confirmed)="closeSuccessDialog()"
+        (cancelled)="closeSuccessDialog()">
+    </app-confirm-dialog>
+}

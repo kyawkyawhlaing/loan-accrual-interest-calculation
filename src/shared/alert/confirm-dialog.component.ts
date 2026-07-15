@@ -39,9 +39,11 @@ export interface ConfirmDialogDetail {
                             <button mat-button type="button" (click)="onConfirm()">
                                 {{ confirmText }}
                             </button>
-                            <button mat-button type="button" (click)="onCancel()">
-                                {{ cancelText }}
-                            </button>
+                            @if (showCancel) {
+                                <button mat-button type="button" (click)="onCancel()">
+                                    {{ cancelText }}
+                                </button>
+                            }
                         </div>
                     </mat-card-content>
                 </mat-card>
@@ -153,7 +155,7 @@ export interface ConfirmDialogDetail {
                 background-color: var(--daxaColor);
             }
 
-            .btn-box .mat-mdc-button:last-child {
+            .btn-box .mat-mdc-button:not(:first-child) {
                 margin-left: 10px;
                 border-color: #c2cada;
                 color: var(--blackColor);
@@ -167,6 +169,7 @@ export class ConfirmDialogComponent {
     @Input() message = '';
     @Input() confirmText = 'Confirm';
     @Input() cancelText = 'Cancel';
+    @Input() showCancel = true;
     @Input() details: ConfirmDialogDetail[] = [];
 
     @Output() confirmed = new EventEmitter<void>();

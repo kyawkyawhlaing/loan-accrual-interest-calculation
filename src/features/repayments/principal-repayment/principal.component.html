@@ -173,3 +173,14 @@
         (cancelled)="closeConfirmDialog()">
     </app-confirm-dialog>
 }
+
+@if (showSuccessDialog) {
+    <app-confirm-dialog
+        title="Principal Successful"
+        message="Principal voucher is saved successfully!"
+        confirmText="OK"
+        [showCancel]="false"
+        (confirmed)="closeSuccessDialog()"
+        (cancelled)="closeSuccessDialog()">
+    </app-confirm-dialog>
+}

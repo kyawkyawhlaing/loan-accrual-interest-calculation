@@ -16,9 +16,7 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { CustomizerSettingsService } from "../../../core/customizer-settings/customizer-settings.service";
 import { ThousandSeparatorDirective } from "../../../shared/directives/thousand-separator.directive";
 import { InterestService } from "./interest.service";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { ConfirmDialogComponent, ConfirmDialogDetail } from "../../../shared/alert/confirm-dialog.component";
-import { CustomSnackbarComponent } from "../../../shared/alert/custom-snackbar.component";
 import { UtilsService } from "../../../core/services/utils.service";
 import { UppercaseDirective } from "../../../shared/directives/uppercase.directive";
 
@@ -50,13 +48,13 @@ export class InterestComponent {
     @ViewChild(FormGroupDirective) private formGroupDirective?: FormGroupDirective;
 
     private fb = inject(FormBuilder);
-    private snackBar = inject(MatSnackBar);
     private voucherService = inject(InterestService);
     private utilsService = inject(UtilsService);
     private destroyRef = inject(DestroyRef);
 
     protected form: FormGroup = new FormGroup({});
     showConfirmDialog = false;
+    showSuccessDialog = false;
     confirmDetails: ConfirmDialogDetail[] = [];
     private pendingVoucher: any = null;
 
@@ -190,20 +188,16 @@ export class InterestComponent {
             .subscribe({
                 next: () => {
                     this.resetForm();
-                    this.snackBar.openFromComponent(CustomSnackbarComponent, {
-                        data: {
-                            message: 'Interest voucher is saved successfully!',
-                            type: 'success',
-                        },
-                        verticalPosition: 'top',
-                        horizontalPosition: 'center',
-                        panelClass: ['snackbar-success'],
-                    });
+                    this.showSuccessDialog = true;
                 },
                 error: (error) => {
                     console.log(error);
                 },
             });
+    }
+
+    closeSuccessDialog() {
+        this.showSuccessDialog = false;
     }
 
     private resetForm() {

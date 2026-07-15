@@ -34,3 +34,14 @@
         (cancelled)="accountService.cancelLogout()">
     </app-confirm-dialog>
 }
+
+@if (alertService.visible()) {
+    <app-confirm-dialog
+        [title]="alertService.title()"
+        [message]="alertService.message()"
+        [confirmText]="alertService.confirmText()"
+        [showCancel]="false"
+        (confirmed)="alertService.close()"
+        (cancelled)="alertService.close()">
+    </app-confirm-dialog>
+}

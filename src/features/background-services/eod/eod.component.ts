@@ -8,15 +8,13 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatMenuModule } from "@angular/material/menu";
 import { MatSelectModule } from "@angular/material/select";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { RouterLink } from "@angular/router";
 import { FileUploadModule } from "@iplab/ngx-file-upload";
 import { Editor, NgxEditorModule, Toolbar } from "ngx-editor";
 import { CustomizerSettingsService } from "../../../core/customizer-settings/customizer-settings.service";
-import { CustomSnackbarComponent } from "../../../shared/alert/custom-snackbar.component";
+import { ConfirmDialogComponent } from "../../../shared/alert/confirm-dialog.component";
 import { EodService } from "./eod.service";
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { formatDate } from "@angular/common";
 import { UtilsService } from "../../../core/services/utils.service";
 import { HeaderService } from "../../../shared/layout/header/header.service";
 
@@ -37,19 +35,20 @@ import { HeaderService } from "../../../shared/layout/header/header.service";
         ReactiveFormsModule,
         FileUploadModule,
         NgxEditorModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        ConfirmDialogComponent,
     ],
     templateUrl: 'eod.component.html',
     styleUrl: 'eod.component.scss',
 })
 export class EodComponent {
     private fb = inject(FormBuilder);
-    private snackBar = inject(MatSnackBar);
     private utilsService = inject(UtilsService);
     private headerService = inject(HeaderService);
 
     protected eodService = inject(EodService);
     protected form: FormGroup = new FormGroup({});
+    showSuccessDialog = false;
 
     // Text Editor
     editor: Editor;
@@ -104,21 +103,18 @@ export class EodComponent {
                     this.eodService.isLoading.set(false);
                     this.headerService.setBusinessDate(eodDate);
                     this.headerService.getBusinessDate().subscribe();
-                    this.snackBar.openFromComponent(CustomSnackbarComponent, {
-                        data: {
-                            message: 'EOD has proceed successfully!',
-                        },
-                        verticalPosition: 'top',
-                        horizontalPosition: 'center',
-                        panelClass: ['snackbar-success'],
-                    });
                     this.form.reset();
+                    this.showSuccessDialog = true;
                 },
                 error: (error) => {
                     this.eodService.isLoading.set(false);
                     console.log(error)
                 },
             });
+    }
+
+    closeSuccessDialog() {
+        this.showSuccessDialog = false;
     }
 
     // Dark Mode

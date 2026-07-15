@@ -23,9 +23,7 @@ import { debounceTime, distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { Editor, NgxEditorModule, Toolbar } from 'ngx-editor';
 import { CustomizerSettingsService } from '../../../core/customizer-settings/customizer-settings.service';
 import { ThousandSeparatorDirective } from '../../../shared/directives/thousand-separator.directive';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ConfirmDialogComponent, ConfirmDialogDetail } from '../../../shared/alert/confirm-dialog.component';
-import { CustomSnackbarComponent } from '../../../shared/alert/custom-snackbar.component';
 import { LatefeeService } from './latefee.service';
 import { UtilsService } from '../../../core/services/utils.service';
 import { UppercaseDirective } from '../../../shared/directives/uppercase.directive';
@@ -57,13 +55,13 @@ export class LatefeeComponent {
     @ViewChild(FormGroupDirective) private formGroupDirective?: FormGroupDirective;
 
     private fb = inject(FormBuilder);
-    private snackBar = inject(MatSnackBar);
     private voucherService = inject(LatefeeService);
     private utilsService = inject(UtilsService);
     private destroyRef = inject(DestroyRef);
 
     protected form: FormGroup = new FormGroup({});
     showConfirmDialog = false;
+    showSuccessDialog = false;
     confirmDetails: ConfirmDialogDetail[] = [];
     private pendingVoucher: any = null;
 
@@ -196,20 +194,16 @@ export class LatefeeComponent {
             .subscribe({
                 next: () => {
                     this.resetForm();
-                    this.snackBar.openFromComponent(CustomSnackbarComponent, {
-                        data: {
-                            message: 'Latefee voucher is saved successfully!',
-                            type: 'success',
-                        },
-                        verticalPosition: 'top',
-                        horizontalPosition: 'center',
-                        panelClass: ['snackbar-success'],
-                    });
+                    this.showSuccessDialog = true;
                 },
                 error: (error) => {
                     console.log(error);
                 },
             });
+    }
+
+    closeSuccessDialog() {
+        this.showSuccessDialog = false;
     }
 
     private resetForm() {
