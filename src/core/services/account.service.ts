@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from "@angular/core";
 import { User } from "../../shared/types/user";
 import { HttpClient } from "@angular/common/http";
-import { environment } from "../../environments/environment.development";
+import { environment } from "../../environments/environment";
 import { map, tap } from "rxjs";
 import { SignalrService } from "./signalr.service";
 

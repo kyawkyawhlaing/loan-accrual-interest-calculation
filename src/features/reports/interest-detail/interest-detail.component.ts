@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { DatePipe } from '@angular/common';
 import { saveAs } from 'file-saver';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';

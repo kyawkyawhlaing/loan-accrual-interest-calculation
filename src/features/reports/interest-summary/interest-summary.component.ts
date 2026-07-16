@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import {
     FormBuilder,
     FormControl,

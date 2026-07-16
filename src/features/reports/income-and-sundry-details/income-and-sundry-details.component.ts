@@ -15,7 +15,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { MatSelectModule } from '@angular/material/select';
 import { saveAs } from 'file-saver';
 import { DatePipe } from '@angular/common';

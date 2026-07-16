@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 
-import { environment } from "../../../environments/environment.development";
+import { environment } from "../../../environments/environment";
 
 type EodDate = {
     eodDate: Date

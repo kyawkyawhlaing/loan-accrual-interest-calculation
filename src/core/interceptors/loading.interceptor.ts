@@ -2,7 +2,7 @@ import { HttpEvent, HttpInterceptorFn, HttpParams } from '@angular/common/http';
 import { inject } from '@angular/core';
 
 import { delay, finalize, identity, of, tap } from 'rxjs';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { BusyService } from '../services/busy.service';
 import { HttpCacheService } from '../services/http-cache.service';
 

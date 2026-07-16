@@ -5,7 +5,7 @@ import {
     HubConnectionState,
 } from '@microsoft/signalr';
 import { Subject } from 'rxjs';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { HttpCacheService } from './http-cache.service';
 
 @Injectable({ providedIn: 'root' })
