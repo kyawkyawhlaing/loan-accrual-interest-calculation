@@ -21,16 +21,6 @@
                         LISTS
                     </span>
 
-                    <a routerLink="/audit-logs" class="sidebar-menu-link" routerLinkActive="active"
-                        [routerLinkActiveOptions]="{exact: true}">
-                        <i class="material-symbols-outlined">
-                            history
-                        </i>
-                        <span class="title">
-                            Audit Logs
-                        </span>
-                    </a>
-
                     @if (!accountService.role().includes('MFTBEOD')) {
                         <a routerLink="/account-view" class="sidebar-menu-link" routerLinkActive="active"
                             [routerLinkActiveOptions]="{exact: true}">
@@ -54,22 +44,22 @@
                                 </span>
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <ul class="sidebar-sub-menu">
+                        <!-- <ul class="sidebar-sub-menu">
                             <li class="sidemenu-item">
                                 <a routerLink="/report/accrued-interest-receivable-stf" routerLinkActive="active"
                                     [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
                                     2100-0055
                                 </a>
                             </li>
-                        </ul>
-                        <ul class="sidebar-sub-menu">
+                        </ul> -->
+                        <!-- <ul class="sidebar-sub-menu">
                             <li class="sidemenu-item">
                                 <a routerLink="/report/temporary-interest-stf" routerLinkActive="active"
                                     [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
                                     3901-0077
                                 </a>
                             </li>
-                        </ul>
+                        </ul> -->
                         <ul class="sidebar-sub-menu">
                             <li class="sidemenu-item">
                                 <a routerLink="/report/income-and-sundry-details" routerLinkActive="active"
@@ -175,7 +165,7 @@
                     </mat-expansion-panel>
                     }
 
-                    @if (accountService.role().includes('MFTBEOD')) {
+                    @if (accountService.role().includes('MFTBEOD') || accountService.role().includes('MFTBADMIN')) {
                         <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
                             <mat-expansion-panel-header>
                                 <mat-panel-title>
@@ -198,6 +188,28 @@
                         </mat-expansion-panel>
                     }
 
+                    @if (!accountService.role().includes('MFTBADMIN')) {
+                        <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = true">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <i class="material-symbols-outlined">
+                                        history
+                                    </i>
+                                    <span class="title">
+                                        Audit Logs
+                                    </span>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <ul class="sidebar-sub-menu">
+                                <li class="sidemenu-item">
+                                    <a routerLink="/audit-logs" routerLinkActive="active"
+                                        [routerLinkActiveOptions]="{exact: true}" class="sidemenu-link">
+                                        Audit Logs
+                                    </a>
+                                </li>
+                            </ul>
+                        </mat-expansion-panel>
+                    }
                     <a (click)="onLogout()" class="sidebar-menu-link">
                         <i class="material-symbols-outlined">
                             logout
