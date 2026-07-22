@@ -17,9 +17,9 @@ import { InterestDetailComponent } from '../features/reports/interest-detail/int
 import { LoanPrincipalOverdueFeeDetailComponent } from '../features/reports/loan-principal-overdue-fee-detail/loan-principal-overdue-fee-detail.component';
 import { IndividualLoanAccountInterestDetailComponent } from '../features/reports/individual-loan-account-interest-detail/individual-loan-account-interest-detail.component';
 import { IndividualLoanPrincipalOverdueFeeDetailComponent } from '../features/reports/individual-loan-principal-overdue-fee-detail/individual-loan-principal-overdue-fee-detail.component';
-import { AccruedInterestReceivableSTFComponent } from '../features/reports/accrued-interest-receivable-stf/accrued-interest-receivable-stf.component';
-import { TemporaryInterestSTFComponent } from '../features/reports/temporary-interest-stf/temporary-interest-stf.component';
 import { AuditLogComponent } from '../features/audit-logs/audit-log.component';
+import { AccruedBalanceComponent } from '../features/reports/accrued-balance/accrued-balance.component';
+import { TotalAccruedBalanceComponent } from '../features/reports/total-accrued-balance/total-accrued-balance.component';
 
 
 
@@ -31,8 +31,8 @@ export const routes: Routes = [
     {
         path: 'report',
         children: [
-            { path: 'accrued-interest-receivable-stf', component: AccruedInterestReceivableSTFComponent},
-            { path: 'temporary-interest-stf', component: TemporaryInterestSTFComponent},
+            { path: 'accrued-balance', component: AccruedBalanceComponent },
+            { path: 'total-accrued-balance', component: TotalAccruedBalanceComponent },
             { path: 'income-and-sundry-details', component: IncomeAndSundryDetailsComponent },
             { path: 'overdue-fee-income-and-sundry-details', component: OverdueFeeIncomeAndSundryDetailsComponent },
             { path: 'app-loan-principal-overdue-fee-summary', component: LoanPrincipalOverdueFeeSummaryComponent},

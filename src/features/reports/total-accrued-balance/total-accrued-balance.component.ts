@@ -28,14 +28,14 @@ import { MatSelectModule } from '@angular/material/select';
       MatSelectModule
   ],
   providers: [ DatePipe ],
-  templateUrl: './temporary-interest-stf.component.html',
-  styleUrl: './temporary-interest-stf.component.scss',
+  templateUrl: './total-accrued-balance.component.html',
+  styleUrl: './total-accrued-balance.component.scss',
 })
-export class TemporaryInterestSTFComponent {
+export class TotalAccruedBalanceComponent {
     src!: Blob;
     fileName: string;
     productList: string[] = ['DCF', 'FCF', 'PEF', 'INF', 'STF'];
-    
+
     protected readonly form: FormGroup = new FormGroup({});
 
     private url = environment.apiUrl;
@@ -63,8 +63,8 @@ export class TemporaryInterestSTFComponent {
                     endDate: this.datePipe.transform(this.form.value.endDate as Date, 'yyyy-MM-dd'),
                     productCode: this.form.value.productCode,
                     format: (this.form.value.format as string).toLowerCase(),
-                    reportFullName: '3901-0077.jrxml',
-                    outputFileName: '2100-0055 Temporary Interest For STF',
+                    reportFullName: 'TotalAccruedBalanceByProduct.jrxml',
+                    outputFileName: 'Total Accrued Balance Report',
                 },
                 { observe: 'response', responseType: 'blob' }
             )

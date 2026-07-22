@@ -35,14 +35,14 @@ import { MatSelectModule } from '@angular/material/select';
         MatSelectModule,
     ],
     providers: [DatePipe],
-    templateUrl: './accrued-interest-receivable-stf.component.html',
-    styleUrl: './accrued-interest-receivable-stf.component.scss',
+    templateUrl: './accrued-balance.component.html',
+    styleUrl: './accrued-balance.component.scss',
 })
-export class AccruedInterestReceivableSTFComponent {
+export class AccruedBalanceComponent {
     src!: Blob;
     fileName: string;
     productList: string[] = ['DCF', 'FCF', 'PEF', 'INF', 'STF'];
-    
+
     protected readonly form: FormGroup = new FormGroup({});
 
     private url = environment.apiUrl;
@@ -76,9 +76,9 @@ export class AccruedInterestReceivableSTFComponent {
                     ),
                     productCode: this.form.value.productCode,
                     format: (this.form.value.format as string).toLowerCase(),
-                    reportFullName: '2100-0055.jrxml',
+                    reportFullName: 'AccruedBalanceByProduct.jrxml',
                     outputFileName:
-                        '2100-0055 Accrued Interest Receivable For STF',
+                        'Accrued Balance Report',
                 },
                 { observe: 'response', responseType: 'blob' },
             )
