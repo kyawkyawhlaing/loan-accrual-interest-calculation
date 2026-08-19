@@ -7,6 +7,16 @@ export class UtilsService {
         return Number(value.replace(/,/g, ''));
     }
 
+    public formatAmount(value: string): string {
+        if (!value) return '-';
+        const num = this.parseAmount(value);
+        if (isNaN(num)) return '-';
+        return num.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
+    }
+
     public toUtcDate(value: Date) {
         const now = new Date();
 

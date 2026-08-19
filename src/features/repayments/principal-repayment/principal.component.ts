@@ -155,7 +155,7 @@ export class PrincipalComponent {
             { label: 'Loan Account Number', value: this.pendingVoucher.loanAcctNum || '-' },
             { label: 'Loan Account Name', value: this.pendingVoucher.loanAcctName || '-' },
             { label: 'Product Code', value: this.pendingVoucher.productCode || '-' },
-            { label: 'Payment Amount', value: this.pendingVoucher.paymentAmt || '-' },
+            { label: 'Payment Amount', value: this.utilsService.formatAmount(this.pendingVoucher.paymentAmt) },
             { label: 'Currency Code', value: this.pendingVoucher.ccy || '-' },
         ];
         this.showConfirmDialog = true;

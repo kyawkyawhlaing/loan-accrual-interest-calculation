@@ -92,6 +92,17 @@
                             ],
                             "outputHashing": "all"
                         },
+                        "uat": {
+                            "optimization": false,
+                            "extractLicenses": false,
+                            "sourceMap": true,
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.uat.ts"
+                                }
+                            ]
+                        },
                         "development": {
                             "optimization": false,
                             "extractLicenses": false,
@@ -139,6 +150,6 @@
         }
     },
     "cli": {
-      "analytics": false
+        "analytics": false
     }
 }
